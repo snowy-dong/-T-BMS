@@ -11,6 +11,7 @@ import { GoodsModule } from './goods/goods.module';
 import { OrderModule } from './order/order.module';
 import { RoleModule } from './role/role.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import {PermissModule} from './permiss/permiss.module'
 
 import { TypeaheadModule,ModalModule   } from 'ngx-bootstrap';
 import { HomeComponent } from './home/home.component';
@@ -33,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
     OrderModule,
     RoleModule,
     StatisticsModule,
+    PermissModule,
     TypeaheadModule,
     HttpClientModule
   ],

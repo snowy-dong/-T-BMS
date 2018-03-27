@@ -7,6 +7,6 @@ export class CategoryService{
   constructor(private http:HttpClient ){
   }
   getContacts() {
-    return this.http.get('/api/test');
+    return this.http.get('/api/');
   }
 }
