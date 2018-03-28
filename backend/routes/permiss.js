@@ -33,7 +33,12 @@ router.post('/', function(req, res, next) {
   }
 });
 router.get('/list', function(req, res, next) {
-  var sql = `select *  from permiss limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`;  
+  var sql='';
+  if(req.query.keyword){
+    sql= `select *  from permiss  limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+` where permiss_code like "%` + req.query.keyword + `%" or permiss_name like "%`+req.query.keyword+`%";`;  
+  }else{
+    sql= `select *  from permiss   limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`;  
+  }
   var sqlCount = `select count(1)  from permiss;`;  
   let data ={
     count:0,
