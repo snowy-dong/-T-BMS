@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-const FETCH_LATENCY = 500;
 @Injectable()
-export class PermissService{
-  constructor(private http:HttpClient ){
+export class PermissService {
+  constructor(private http: HttpClient) {
   }
-  addPermiss(data) {
+  add(data) {
     return this.http.post('/api/permiss', data);
   }
-  getList(params){
-    return this.http.get('/api/permiss/list', {params:params});
+  getList(params) {
+    return this.http.get('/api/permiss/list', { params: params });
   }
-  edit(id, params){
-    return this.http.get('/api/permiss/' + id, {params:params});
+  edit(id, params) {
+    return this.http.get('/api/permiss/' + id, { params: params });
   }
-  delete(id){
+  delete(id) {
     return this.http.get('/api/permiss/' + id);
   }
-}
-
-export class List {
-  constructor(public id: number, public permiss_name: string, public permiss_code: string) { }
 }

@@ -1,5 +1,19 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 @Injectable()
-export class AccountService{
-
+export class AccountService {
+  constructor(private http: HttpClient) {
+  }
+  add(data) {
+    return this.http.post('/api/permiss', data);
+  }
+  getList(params) {
+    return this.http.get('/api/permiss/list', { params: params });
+  }
+  edit(id, params) {
+    return this.http.get('/api/permiss/' + id, { params: params });
+  }
+  delete(id) {
+    return this.http.get('/api/permiss/' + id);
+  }
 }
