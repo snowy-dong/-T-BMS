@@ -21,8 +21,8 @@
       <tbody>
           <tr *ngFor="let item of data.list;  index as i;">
               <td>{{i}}</td>
-              <td>{{item.permiss_code}}</td>
               <td>{{item.permiss_name}}</td>
+              <td>{{item.permiss_code}}</td>
               <td>
               <a (click) = "edit(item.id)">编辑</a>
               <a (click) = "delete(item.id)">删除</a>

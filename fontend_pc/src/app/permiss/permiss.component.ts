@@ -32,7 +32,8 @@ export class PermissComponent implements OnInit {
   }
   // 搜索
   public search(name:String):void{
-    console.log(name);
+    this.params.keyword = name;
+    this.getList(this.params)
   }
   // 添加权限
   public addPermiss(obj:Object):void{
