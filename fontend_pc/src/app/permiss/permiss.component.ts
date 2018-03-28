@@ -1,7 +1,6 @@
 import { Component,TemplateRef , OnInit, NgModule, Directive  } from '@angular/core';
 import { PermissService} from './permiss.service'
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService, BsModalRef  } from 'ngx-bootstrap';
 @Component({
   selector: 'app-permiss',
   templateUrl: './permiss.component.html',
@@ -10,32 +9,59 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 })
 
 export class PermissComponent implements OnInit {
-  list: ArrayBuffer;
-  modalRef: BsModalRef;
+  public data: Object;
+  public modalRef: BsModalRef;
+  public params:any = {
+    pageNo:1,
+    pageSize:2
+  };
   constructor(private PermissService: PermissService,private modalService: BsModalService) {
   }
   public  openModal(template: TemplateRef<any>) {
-    console.log(this);
     this.modalRef = this.modalService.show(template);
   }
-  public  ngOnInit() {
-    let params ={};
+  public  ngOnInit():void{
+    this.getList(this.params);
+  }
+  // 获取列表
+  public getList(params:Object):void{
     this.PermissService.getList(params)
     .subscribe(data => {
-      this.list = data;
-      console.log(this.list )
+      this.data = data
     })
   }
-  public  search(name:String){
-    // let name = name.trim();
+  // 搜索
+  public search(name:String):void{
     console.log(name);
   }
-  public addPermiss(data:Object){
-    console.log(data);
-    this.PermissService.addPermiss(data)
+  // 添加权限
+  public addPermiss(obj:Object):void{
+    this.PermissService.addPermiss(obj)
     .subscribe(data => {
-      console.log(data)
+        console.log(data)
+        this.modalRef.hide();
     })
+  }
+  // 编辑
+  public edit(id:String,obj:Object):void{
+    this.PermissService.edit(id,obj)
+    .subscribe(data => {
+        console.log(data)
+        this.modalRef.hide();
+    })
+  }
+  // 删除
+  public delete(id:String):void{
+    this.PermissService.delete(id)
+    .subscribe(data => {
+        console.log(data)
+        this.modalRef.hide();
+    })
+  }
+  // 切换页码
+  public pageChanged(event:any):void{
+    this.params.pageNo = event.page;
+    this.getList(this.params);
   }
 }
 

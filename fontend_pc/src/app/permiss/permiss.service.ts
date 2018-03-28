@@ -10,7 +10,13 @@ export class PermissService{
     return this.http.post('/api/permiss', data);
   }
   getList(params){
-    return this.http.get('/api/permiss/list', params);
+    return this.http.get('/api/permiss/list', {params:params});
+  }
+  edit(id, params){
+    return this.http.get('/api/permiss/' + id, {params:params});
+  }
+  delete(id){
+    return this.http.get('/api/permiss/' + id);
   }
 }
 
