@@ -1,6 +1,11 @@
 import { Component, TemplateRef, OnInit, NgModule, Directive } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+
 import { PermissService } from './permiss.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+
+
 @Component({
   selector: 'app-permiss',
   templateUrl: './permiss.component.html',
@@ -11,17 +16,30 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 export class PermissComponent implements OnInit {
   public data: Object;
   public modalRef: BsModalRef;
+  public hero$:any; //test Data
   public params: any = {
     pageNo: 1,
     pageSize: 2
   };
-  constructor(private PermissService: PermissService, private modalService: BsModalService) {
+  public username:String;
+  constructor(
+     private route: ActivatedRoute,
+     private router: Router,
+     private PermissService: PermissService,
+     private modalService: BsModalService
+    ) {
   }
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
   public ngOnInit(): void {
+    this.route.params.subscribe((params) => this.username = params.username);
     this.getList(this.params);
+  }
+  public goRouter(){
+    setTimeout(() => {
+      this.router.navigate(['/settings']);
+    }, 5000)
   }
   // 获取列表
   public getList(params: Object): void {

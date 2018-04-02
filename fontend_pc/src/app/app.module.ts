@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
+import { LoginModule } from './login/login.module'
 import { AppComponent } from './app.component';
 import { ActiveModule }  from './active/active.module';
 import { AccountModule }  from './account/account.module';
@@ -16,9 +17,11 @@ import {PermissModule} from './permiss/permiss.module'
 import { TypeaheadModule,ModalModule   } from 'ngx-bootstrap';
 import { HomeComponent } from './home/home.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import {httpInterceptorProviders} from './http-interceptors'
 
+import {AuthService} from './auth.service'
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    LoginModule,
     ActiveModule,
     AccountModule,
     CategoryModule,
@@ -38,7 +42,7 @@ import { HttpClientModule } from '@angular/common/http';
     TypeaheadModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AuthService,httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

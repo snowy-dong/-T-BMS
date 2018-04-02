@@ -1,12 +1,12 @@
 import { NgModule }            from '@angular/core';
-import { RouterModule }        from '@angular/router';
-
+import { RouterModule, Routes }        from '@angular/router';
 import { PermissComponent }    from './permiss.component';
 
+const PermissRoute: Routes = [
+  { path: 'Permiss', component: PermissComponent },
+];
 @NgModule({
-  imports: [RouterModule.forChild([
-    { path: 'Permiss', component: PermissComponent }
-  ])],
+  imports: [RouterModule.forChild(PermissRoute)],
   exports: [RouterModule]
 })
 export class PermissRoutingModule {}
