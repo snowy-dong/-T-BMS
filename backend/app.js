@@ -17,6 +17,27 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// 拦截器
+app.all('/*', function (req, res, next) {
+  console.log(req.headers.authorization)
+  next();
+// if (req.url == '/login') {
+//     next();
+// } else {
+//     if (req.method == "GET") {
+//         username = req.query.user;
+//     } else if (req.method == "POST") {
+//         username = req.body.user;
+//     }
+//     if (sessionPool[username] && getSid(res.req.headers.cookie) == sessionPool[username]) {
+//         // 用户session存在
+//         next();
+//     } else {
+//         res.json({ requestIntercept: 1 });  // 页面拿到这个值在做拦截处理即可
+//     }
+// }
+});
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
