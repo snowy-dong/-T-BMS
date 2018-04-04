@@ -1,24 +1,37 @@
 var redisClient = require('./redis').redisClient;
 var TOKEN_EXPIRATION = 60;
 var TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 60;
-
+var jwt = require('jsonwebtoken');
+var secret = require('./secret');
 // Middleware for token verification
 exports.verifyToken = function (req, res, next) {
   var token = getToken(req.headers);
-
-  redisClient.get(token, function (err, reply) {
-    if (err) {
-      console.log(err);
-      return res.send(500);
+ jwt.verify(token, secret.secretToken, {
+    expiresIn: TOKEN_EXPIRATION_SEC
+  }, function(err, decoded){
+    if(err){
+      res.send({
+        code: 'S401',
+        msg: 'reply',
+      });
     }
-
-    if (reply) {
-      res.send(401);
-    } else {
-      next();
+    if(decoded && decoded.name ){
+       getName(decoded.name)
     }
-
-  });
+  })
+  function getName(name){
+    redisClient.get(name, function (redisRes, reply) {
+      console.log(reply)
+      if (reply === token) {
+        next()
+      } else {
+        return res.send({
+          code: 'S401',
+          msg: 'reply',
+        });
+      }
+    });
+  }
 };
 
 exports.expireToken = function (headers) {
@@ -35,15 +48,7 @@ exports.expireToken = function (headers) {
 var getToken = function (headers) {
   if (headers && headers.authorization) {
     var authorization = headers.authorization;
-    var part = authorization.split(' ');
-
-    if (part.length == 2) {
-      var token = part[1];
-
-      return part[1];
-    } else {
-      return null;
-    }
+    return authorization;
   } else {
     return null;
   }

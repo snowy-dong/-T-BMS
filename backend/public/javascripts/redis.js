@@ -14,8 +14,6 @@ var redis = require("redis"), //召唤redis
 //     console.log('通过认证');    
 // }); 
 redisClient.on('connect', function () {
-    redisClient.set('author', 'Wilson234', redis.print);
-    redisClient.get('author2', redis.print);
     console.log('connect');
 });
 // redisClient.on('ready',function(err){    

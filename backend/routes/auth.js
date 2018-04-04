@@ -9,14 +9,14 @@ var tokenManager = require('../public/javascripts/token_manager');
 
 /* GET users listing. */
 router.post('/', function (req, res, next) {
-  get();
 
+  get();
   function get() {
     redisClient.get(req.body.name, function (redisRes, reply) {
       console.log(reply)
       if (reply) {
         res.send({
-          code: '200',
+          code: 'S200',
           msg: 'reply' + reply,
           data:reply
         });
@@ -29,9 +29,9 @@ router.post('/', function (req, res, next) {
   function set(code) {
     redisClient.set(req.body.name, code, function (redisRes, reply) {
       if (reply) {
-        redisClient.expire(req.body.name, 30);
+        redisClient.expire(req.body.name, tokenManager.TOKEN_EXPIRATION);
         res.send({
-          code: '200',
+          code: 'S200',
           msg: '登录成功',
           data:code
         });
@@ -43,13 +43,11 @@ router.post('/', function (req, res, next) {
     let sqlonlycount = `select count(1) from  user where user_name = "` + req.body.name + `" and password = "` + req.body.password + `";`;
     db.query(sqlonlycount, function (err, results, fields) {
       if (err) throw err;
-      console.log('fields')
-      console.log(results[0])
       if (results[0]['count(1)'] > 0) {
         var token = jwt.sign({
           name: req.body.name
         }, secret.secretToken, {
-          expiresIn: tokenManager.TOKEN_EXPIRATION
+          expiresIn: tokenManager.TOKEN_EXPIRATION_SEC
         });
         return set(token)
       } else {
@@ -60,6 +58,7 @@ router.post('/', function (req, res, next) {
       }
     });
   }
+
 });
 
 module.exports = router;
