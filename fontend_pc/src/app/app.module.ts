@@ -12,16 +12,18 @@ import { GoodsModule } from './goods/goods.module';
 import { OrderModule } from './order/order.module';
 import { RoleModule } from './role/role.module';
 import { StatisticsModule } from './statistics/statistics.module';
-import {PermissModule} from './permiss/permiss.module'
+import { PermissModule} from './permiss/permiss.module'
 
 import { TypeaheadModule,ModalModule   } from 'ngx-bootstrap';
 import { HomeComponent } from './home/home.component';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import {httpInterceptorProviders} from './http-interceptors'
+import { httpInterceptorProviders} from './http-interceptors'
 
 import {AuthService} from './auth.service'
+
+import { SessionStorage } from './common/session.storage';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +44,7 @@ import {AuthService} from './auth.service'
     TypeaheadModule,
     HttpClientModule
   ],
-  providers: [AuthService,httpInterceptorProviders],
+  providers: [AuthService, httpInterceptorProviders, SessionStorage],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

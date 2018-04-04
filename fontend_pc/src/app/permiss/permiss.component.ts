@@ -19,7 +19,7 @@ export class PermissComponent implements OnInit {
   public hero$:any; //test Data
   public params: any = {
     pageNo: 1,
-    pageSize: 2
+    pageSize: 10
   };
   public username:String;
   constructor(

@@ -4,7 +4,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { LoginService } from './login.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-
+import { AuthService} from '../auth.service'
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   public name:String;
   public password:String;
   public data:Object
-  constructor(private router: Router,private loginService:LoginService) {}
+  constructor(private router: Router,private loginService:LoginService, private auth:AuthService) {}
   public ngOnInit(): void {
 
   }
@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
     }
     this.loginService.login(data)
     .subscribe(data => {
+      this.auth.setAuthorizationToken(data.data)
       this.data = data
     })
   }
