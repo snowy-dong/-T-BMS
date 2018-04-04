@@ -9,14 +9,14 @@ export class AuthService {
   }
   public getAuthorizationToken():any {
     if(this.Token){
-      console.log(this.Token)
       return this.Token;
     }else{
-      return  this.sessionStorage.get('token');
+      this.Token = this.sessionStorage.get('token') ? this.sessionStorage.get('token') : '';
+      return this.Token;
     }
 
   }
-  public setAuthorizationToken(token:string):void{
+  public setAuthorizationToken(token):void{
     this.sessionStorage.set('token', token);
     this.Token = token
   }
