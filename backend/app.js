@@ -26,13 +26,7 @@ app.all('/*', function (req, res, next) {
 if (req.url == '/login') {
     next();
 } else {
-  req.headers.authorization &&  tokenManager.verifyToken(req, res, next)
-    // if () {
-    //     // 用户session存在
-    //     next();
-    // } else {
-    //     res.json({ requestIntercept: 1 });  // 页面拿到这个值在做拦截处理即可
-    // }
+  req.headers &&  tokenManager.verifyToken(req, res, next)
 }
 });
 
