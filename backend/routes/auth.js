@@ -17,7 +17,8 @@ router.post('/', function (req, res, next) {
       if (reply) {
         res.send({
           code: '200',
-          msg: 'reply' + reply
+          msg: 'reply' + reply,
+          data:reply
         });
       } else {
         count()
@@ -31,7 +32,8 @@ router.post('/', function (req, res, next) {
         redisClient.expire(req.body.name, 30);
         res.send({
           code: '200',
-          msg: code
+          msg: '登录成功',
+          data:code
         });
       }
     });
