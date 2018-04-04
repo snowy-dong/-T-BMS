@@ -5,10 +5,11 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
+import {Router} from "@angular/router"
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService,private router:Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Get the auth token from the service.
@@ -28,8 +29,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(mergeMap((event: any) => {
       console.log(event)
-      if (event instanceof HttpResponse && event.status != 200) {
-        return ErrorObservable.create(event);
+      if (event instanceof HttpResponse && event.body.code != 'S200') {
+        if( event.body.code ==='S401'){
+          this.router.navigate(['Login'])
+        }else{
+         ErrorObservable.create(event);
+        }
       }
       return Observable.create(observer => observer.next(event)); //请求成功返回响应
     }),
