@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     }
   }
   logout(){
-    this.auth.eventEmit.emit("loginOut");
+    this.isLogin = false;
     this.auth.setAuthorizationToken('')
     this.router.navigate(['Login'])
   }
