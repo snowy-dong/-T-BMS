@@ -1,6 +1,6 @@
 var redisClient = require('./redis').redisClient;
-var TOKEN_EXPIRATION = 60;
-var TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 60;
+var TOKEN_EXPIRATION = 600;
+var TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 600;
 var jwt = require('jsonwebtoken');
 var secret = require('./secret');
 // Middleware for token verification
