@@ -35,7 +35,7 @@ router.post('/', function(req, res, next) {
 router.get('/list', function(req, res, next) {
   var sql='';
   if(req.query.keyword){
-    sql= `select *  from permiss  limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+` where permiss_code like "%` + req.query.keyword + `%" or permiss_name like "%`+req.query.keyword+`%";`;  
+    sql= `select *  from permiss where permiss_code like "%` + req.query.keyword + `%" or permiss_name like "%`+req.query.keyword+`%"  limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`;  
   }else{
     sql= `select *  from permiss   limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`;  
   }
@@ -59,5 +59,28 @@ router.get('/list', function(req, res, next) {
       res.send(data);
     });
   }
+});
+router.delete('/:id', function(req, res, next) {
+  console.log(req.params.id)
+  var sql= `DELETE FROM permiss WHERE id=`+req.params.id;  
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
+    res.send({
+        code: 'S200',
+        msg:""
+      });
+  });
+});
+router.put('/:id', function(req, res, next) {
+  console.log(req.params.id)
+  console.log(req)
+  var sql= `UPDATE permiss SET permiss_code="`+req.body.params.permiss_code + `", permiss_name="` + req.body.params.permiss_name + `" WHERE id=` + req.params.id;  
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
+    res.send({
+        code: 'S200',
+        msg:""
+      });
+  });
 });
 module.exports = router;

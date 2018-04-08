@@ -1,4 +1,4 @@
-import { Component, TemplateRef, OnInit, NgModule, Directive } from '@angular/core';
+import { Component, TemplateRef, OnInit, NgModule, Directive, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
@@ -14,6 +14,9 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 })
 
 export class PermissComponent implements OnInit {
+  name: any;
+  id: any;
+  code: any;
   public data: Object;
   public modalRef: BsModalRef;
   public hero$:any; //test Data
@@ -28,6 +31,12 @@ export class PermissComponent implements OnInit {
      private PermissService: PermissService,
      private modalService: BsModalService
     ) {
+  }
+  @ViewChild('template')
+  template: TemplateRef<any>;
+
+  ngAfterViewInit() {
+    console.dir(this.template);
   }
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -59,7 +68,19 @@ export class PermissComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         this.modalRef.hide();
+        return this.getList(this.params);
       })
+  }
+  public saveModal(item){
+    if(item.id){
+      this.edit(item.id,item)
+    }else{
+      this.add(item)
+    }
+  }
+  public showEdit( item: Object):void{
+    this.item = item;
+    this.openModal(this.template);
   }
   // 编辑
   public edit(id: String, obj: Object): void {
@@ -67,14 +88,14 @@ export class PermissComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         this.modalRef.hide();
+        return this.getList(this.params);
       })
   }
   // 删除
   public delete(id: String): void {
     this.PermissService.delete(id)
       .subscribe(data => {
-        console.log(data)
-        this.modalRef.hide();
+        this.getList(this.params);
       })
   }
   // 切换页码

@@ -5,15 +5,15 @@ export class AccountService {
   constructor(private http: HttpClient) {
   }
   add(data) {
-    return this.http.post('/api/permiss', data);
+    return this.http.post('/api/account', data);
   }
   getList(params) {
-    return this.http.get('/api/permiss/list', { params: params });
+    return this.http.get('/api/account/list', { params: params });
   }
   edit(id, params) {
-    return this.http.get('/api/permiss/' + id, { params: params });
+    return this.http.get('/api/account/' + id, { params: params });
   }
   delete(id) {
-    return this.http.get('/api/permiss/' + id);
+    return this.http.get('/api/account/' + id);
   }
 }

@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable,EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SessionStorage } from './common/session.storage';
 /** Mock client-side authentication/authorization service */
 @Injectable()
 export class AuthService {
   public Token:String = ''
+  public eventEmit: any;
   constructor(private sessionStorage:SessionStorage) {
+    this.eventEmit = new EventEmitter();
   }
   public getAuthorizationToken():any {
     if(this.Token){

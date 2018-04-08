@@ -1,10 +1,10 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="header">
+<div class="header" *ngIf="this.isLogin">
     <a class="logout fr" (click) = 'logout()' >退出登录</a>
 </div>
 <div class="container-fluid">
   <div class="row">
-    <div class="sidebar">
+    <div class="sidebar" *ngIf="this.isLogin">
       <nav>
         <a routerLink="/Account"  routerLinkActive="active">账户管理</a>
         <a routerLink="/Category"  routerLinkActive="active">分类管理</a>

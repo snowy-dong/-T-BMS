@@ -24,7 +24,7 @@
           <td>{{item.permiss_name}}</td>
           <td>{{item.permiss_code}}</td>
           <td>
-            <a (click)="edit(item.id)">编辑</a>
+            <a (click)="showEdit(item)">编辑</a>
             <a (click)="delete(item.id)">删除</a>
           </td>
         </tr>
@@ -44,13 +44,13 @@
       <form>
         <div class="form-group">
           <label for="exampleInputEmail1">权限名称：</label>
-          <input type="email" class="form-control" id="name" placeholder="请输入名称" [(ngModel)]="name" name="name">
+          <input type="email" class="form-control" id="name" placeholder="请输入名称" [(ngModel)]="item.permiss_name" name="name">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">权限Code：</label>
-          <input type="email" class="form-control" id="code" placeholder="请输入CODE" [(ngModel)]="code" name="code">
+          <input type="email" class="form-control" id="code" placeholder="请输入CODE" [(ngModel)]="item.permiss_code" name="code">
         </div>
-        <button type="btn" class="btn btn-default" (click)="add({name:name,code:code})">Submit</button>
+        <button type="btn" class="btn btn-default" (click)="saveModal(item)">Submit</button>
       </form>
     </div>
   </ng-template>

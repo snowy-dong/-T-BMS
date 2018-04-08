@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
     .subscribe(data => {
       this.auth.setAuthorizationToken(data.data)
       this.data = data
+      this.auth.eventEmit.emit("login");
       this.router.navigate(['Account'])
     })
   }

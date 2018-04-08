@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router"
 import {AuthService} from './auth.service'
 @Component({
@@ -6,11 +6,27 @@ import {AuthService} from './auth.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
+  public isLogin:Boolean
   constructor(private router:Router, private auth: AuthService){}
+  public ngOnInit(): void {
+    // 接收发射过来的数据
+    this.auth.eventEmit.subscribe((value: any) => {
+      if(value == "loginOut") {
+          this.isLogin = false;
+      }else if(value === 'login'){
+          this.isLogin = true;
+      }
+    });
+    if(this.auth.getAuthorizationToken()){
+      this.isLogin = true;
+    }else{
+      this.isLogin = false;
+    }
+  }
   logout(){
-    console.log('logout')
+    this.auth.eventEmit.emit("loginOut");
     this.auth.setAuthorizationToken('')
     this.router.navigate(['Login'])
   }
