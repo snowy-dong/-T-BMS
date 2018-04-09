@@ -5,7 +5,7 @@ import { StatisticsComponent }    from './statistics.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
-    { path: 'Statistics', component: StatisticsComponent }
+    { path: '', component: StatisticsComponent }
   ])],
   exports: [RouterModule]
 })

@@ -5,7 +5,7 @@ import { CategoryComponent }    from './category.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
-    { path: 'Category', component: CategoryComponent }
+    { path: '', component: CategoryComponent }
   ])],
   exports: [RouterModule]
 })

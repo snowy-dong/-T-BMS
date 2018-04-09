@@ -5,7 +5,7 @@ import { ActiveComponent }    from './active.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
-    { path: 'Active', component: ActiveComponent }
+    { path: '', component: ActiveComponent }
   ])],
   exports: [RouterModule]
 })

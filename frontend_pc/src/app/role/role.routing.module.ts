@@ -5,7 +5,7 @@ import { RoleComponent }    from './role.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
-    { path: 'Role', component: RoleComponent }
+    { path: '', component: RoleComponent }
   ])],
   exports: [RouterModule]
 })

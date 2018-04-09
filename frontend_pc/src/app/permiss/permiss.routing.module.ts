@@ -3,7 +3,7 @@ import { RouterModule, Routes }        from '@angular/router';
 import { PermissComponent }    from './permiss.component';
 
 const PermissRoute: Routes = [
-  { path: 'Permiss', component: PermissComponent },
+  { path: '', component: PermissComponent },
 ];
 @NgModule({
   imports: [RouterModule.forChild(PermissRoute)],
