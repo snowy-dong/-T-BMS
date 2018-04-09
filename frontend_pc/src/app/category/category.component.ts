@@ -18,10 +18,10 @@ export class CategoryComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   ngOnInit() {
-    this.CategoryService.getContacts()
-    .subscribe(data => {
-      console.log(data)
-    })
+    // this.CategoryService.getContacts()
+    // .subscribe(data => {
+    //   console.log(data)
+    // })
   }
   search(name:String){
     // let name = name.trim();

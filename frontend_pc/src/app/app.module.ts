@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TypeaheadModule,ModalModule   } from 'ngx-bootstrap';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { LoginModule } from './login/login.module'
@@ -14,21 +17,17 @@ import { RoleModule } from './role/role.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { PermissModule} from './permiss/permiss.module'
 
-import { TypeaheadModule,ModalModule   } from 'ngx-bootstrap';
 import { HomeComponent } from './home/home.component';
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { httpInterceptorProviders} from './http-interceptors'
-
 import {AuthService} from './auth.service'
-
 import { SessionStorage } from './common/session.storage';
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,
