@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 // import { CommonModule } from '@angular/common';
 import {RouterModule,Routes} from '@angular/router'
 const routes: Routes = [
-  { path: '', redirectTo: '/Category', pathMatch: 'full' },
+  { path: '', redirectTo: '/Account', pathMatch: 'full' },
   { path: 'Account',loadChildren: 'app/account/account.module#AccountModule'},
   { path: 'Category',loadChildren: 'app/category/category.module#CategoryModule'},
   { path: 'Goods',loadChildren: 'app/goods/goods.module#GoodsModule'},
