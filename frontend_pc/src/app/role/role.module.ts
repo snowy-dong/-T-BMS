@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RoleComponent } from './role.component';
@@ -9,7 +9,7 @@ import { ButtonsModule, ModalModule, AccordionModule, PaginationModule } from 'n
 
 @NgModule({
   imports: [
-    BrowserModule,
+    CommonModule,
     RoleRoutingModule,
     FormsModule,
     ModalModule.forRoot(),

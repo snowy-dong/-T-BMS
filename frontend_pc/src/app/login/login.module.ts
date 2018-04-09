@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
@@ -8,7 +8,7 @@ import { LoginRoutingModule } from './login.routing.module';
 // or
 @NgModule({
   imports: [
-    BrowserModule,
+    CommonModule,
     LoginRoutingModule,
     FormsModule,
     ModalModule.forRoot(),
