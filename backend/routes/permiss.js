@@ -36,12 +36,13 @@ router.get('/list', function(req, res, next) {
   var sql='';
   var sqlCount='';
   if(req.query.keyword){
+    console.log(11111)
     sql= `select *  from permiss where permiss_code like "%` + req.query.keyword + `%" or permiss_name like "%`+req.query.keyword+`%"  limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`; 
-    sqlCount = `select count(1)  from permiss where permiss_code like "%` + req.query.keyword + `%" or permiss_name like "%`+req.query.keyword+`%"  limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`;  
+    sqlCount = `select count(1)  from permiss where permiss_code like "%` + req.query.keyword + `%" or permiss_name like "%`+req.query.keyword+`%";`;  
   
   }else{
     sql= `select *  from permiss   limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`;  
-    sqlCount = `select count(1)  from permiss;`; 
+    sqlCount = `select count(1) from permiss;` 
   }
   let data ={
     count:0,
