@@ -5,7 +5,7 @@
         <input type="text" class="form-control" id="exampleInputName2" placeholder="请输入关键词" [(ngModel)]="keywords" name="keywords">
       </div>
       <button type="submit" class="btn btn-primary" (click)="search(keywords)">搜索</button>
-      <button type="button" class="btn btn-primary" (click)="openModal(template)">添加</button>
+      <button type="button" class="btn btn-primary" (click)="openModal()">添加</button>
     </form>
   </div>
   <div class="content">
@@ -33,7 +33,7 @@
     <pagination *ngIf="data" [totalItems]="data.count" [(ngModel)]="params.pageNo" (pageChanged)="pageChanged($event)" pageBtnClass="btn"
       [itemsPerPage]="params.pageSize" previousText="上一页" nextText="下一页" class="pull-left"></pagination>
   </div>
-  <ng-template #template>
+  <!-- <ng-template #template>
     <div class="modal-header">
       <h4 class="modal-title pull-left">添加权限</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -53,5 +53,5 @@
         <button type="btn" class="btn btn-default" (click)="saveModal(item)">Submit</button>
       </form>
     </div>
-  </ng-template>
+  </ng-template> -->
 </div>

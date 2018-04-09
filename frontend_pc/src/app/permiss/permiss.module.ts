@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 import { ButtonsModule, ModalModule, AccordionModule, PaginationModule } from 'ngx-bootstrap';
-import { PermissComponent } from './permiss.component';
+import { PermissComponent, ModalContentComponent } from './permiss.component';
 import { PermissRoutingModule } from './permiss.routing.module';
 // or
 @NgModule({
@@ -15,7 +15,8 @@ import { PermissRoutingModule } from './permiss.routing.module';
     AccordionModule.forRoot(),
     ButtonsModule.forRoot(),
     PaginationModule.forRoot()],
-  declarations: [PermissComponent],
+  declarations: [PermissComponent, ModalContentComponent],
+  entryComponents:[PermissComponent, ModalContentComponent]
 })
 export class PermissModule {
 

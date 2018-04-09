@@ -1,6 +1,9 @@
-import { Component, TemplateRef, OnInit, NgModule, Directive, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, TemplateRef, OnInit, NgModule, Directive, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
 
 import { PermissService } from './permiss.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
@@ -14,17 +17,16 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 })
 
 export class PermissComponent implements OnInit {
-  name: any;
-  id: any;
-  code: any;
+  public name: any;
+  public id: any;
+  public code: any;
   public data: Object;
-  public modalRef: BsModalRef;
-  public hero$:any; //test Data
+  public bsModalRef: BsModalRef;
   public params: any = {
     pageNo: 1,
     pageSize: 10
   };
-  public username:String;
+  username:String;
   constructor(
      private route: ActivatedRoute,
      private router: Router,
@@ -32,19 +34,27 @@ export class PermissComponent implements OnInit {
      private modalService: BsModalService
     ) {
   }
-  @ViewChild('template')
-  template: TemplateRef<any>;
+  // @ViewChild('template')
+  // template: TemplateRef<any>;
 
-  ngAfterViewInit() {
-    console.dir(this.template);
+  // ngAfterViewInit() {
+  //   console.dir(this.template);
+  // }
+  public openModal() {
+    this.bsModalRef = this.modalService.show(ModalContentComponent,{});
+    this.bsModalRef.content.onClose = (myData) => {
+      if(myData){
+         this.bsModalRef.hide();
+         this.getList(this.params);
+      }
+    };
   }
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
+  // 初始化
   public ngOnInit(): void {
     this.route.params.subscribe((params) => this.username = params.username);
     this.getList(this.params);
   }
+  // 跳转
   public goRouter(){
     setTimeout(() => {
       this.router.navigate(['/settings']);
@@ -62,35 +72,12 @@ export class PermissComponent implements OnInit {
     this.params.keyword = name;
     this.getList(this.params)
   }
-  // 添加权限
-  public add(obj: Object): void {
-    this.PermissService.add(obj)
-      .subscribe(data => {
-        console.log(data)
-        this.modalRef.hide();
-        return this.getList(this.params);
-      })
-  }
-  public saveModal(item){
-    if(item.id){
-      this.edit(item.id,item)
-    }else{
-      this.add(item)
-    }
-  }
+  // 展示编辑
   public showEdit( item: Object):void{
-    this.item = item;
-    this.openModal(this.template);
+    this.openModal();
+    this.bsModalRef.content.item = item;
   }
-  // 编辑
-  public edit(id: String, obj: Object): void {
-    this.PermissService.edit(id, obj)
-      .subscribe(data => {
-        console.log(data)
-        this.modalRef.hide();
-        return this.getList(this.params);
-      })
-  }
+
   // 删除
   public delete(id: String): void {
     this.PermissService.delete(id)
@@ -105,3 +92,45 @@ export class PermissComponent implements OnInit {
   }
 }
 
+@Component({
+  selector: 'modal-content',
+  templateUrl: './modal/showModal.html',
+  providers: [PermissService]
+})
+export class ModalContentComponent implements OnInit {
+  public item: Object={
+    permiss_name:'',
+    permiss_code:''
+  };
+  public onClose: any;
+  constructor(private bsModalRef: BsModalRef, private PermissService: PermissService) {}
+
+  ngOnInit() {
+    console.log('ngOnInit')
+  }
+  // 保存
+  public saveModal(item){
+    if(item.id){
+      this.edit(item.id,item)
+    }else{
+      this.add(item)
+    }
+  }
+  // 编辑
+  public edit(id: String, obj: Object): void {
+    this.PermissService.edit(id, obj)
+      .subscribe(data => {
+        console.log(data)
+        this.onClose('yes')
+      })
+  }
+  // 添加权限
+  public add(obj: Object): void {
+    this.PermissService.add(obj)
+      .subscribe(data => {
+        console.log(data)
+        this.onClose('yes')
+        // this.bsModalRef.hide();
+      })
+  }
+}

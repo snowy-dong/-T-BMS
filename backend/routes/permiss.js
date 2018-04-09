@@ -7,7 +7,7 @@ router.post('/', function(req, res, next) {
   console.log(req.body)
   count();
   function count(){
-    let sqlonlycount = `select count(1) from  permiss where permiss_code = "`+ req.body.name +`" or permiss_name = "`+req.body.code+`";`;
+    let sqlonlycount = `select count(1) from  permiss where permiss_code = "`+ req.body.permiss_name +`" or permiss_name = "`+req.body.permiss_code+`";`;
     db.query(sqlonlycount, function(err, results, fields){  
       if (err) throw err;
       console.log(results[0]['count(1)'])
@@ -22,7 +22,7 @@ router.post('/', function(req, res, next) {
     });  
   }
   function insert (){
-  let sql = `insert into permiss values(0,"`+ req.body.name +`" ,"`+req.body.code+`");`;  
+  let sql = `insert into permiss values(0,"`+ req.body.permiss_name +`" ,"`+req.body.permiss_code+`");`;  
     db.query(sql, function(err, results, fields){  
       if (err) throw err;
       res.send({
