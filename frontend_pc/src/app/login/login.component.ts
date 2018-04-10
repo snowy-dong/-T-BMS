@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       password:this.password
     }
     this.loginService.login(data)
-    .subscribe(data => {
+    .subscribe((data:any) => {
       this.auth.setAuthorizationToken(data.data)
       this.data = data
       this.auth.eventEmit.emit("login");
