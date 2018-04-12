@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import {RouterModule,Routes} from '@angular/router'
+import { AuthGuard } from './auth-guard.service';
 const routes: Routes = [
   { path: '', redirectTo: '/Account', pathMatch: 'full' },
-  { path: 'Account',loadChildren: 'app/account/account.module#AccountModule'},
-  { path: 'Category',loadChildren: 'app/category/category.module#CategoryModule'},
-  { path: 'Goods',loadChildren: 'app/goods/goods.module#GoodsModule'},
-  { path: 'Active',loadChildren: 'app/active/active.module#ActiveModule'},
-  { path: 'Order',loadChildren: 'app/order/order.module#OrderModule'},
-  { path: 'Role',loadChildren: 'app/role/role.module#RoleModule'},
-  { path: 'Permiss',loadChildren: 'app/permiss/permiss.module#PermissModule'},
-  { path: 'Statistics',loadChildren: 'app/statistics/statistics.module#StatisticsModule'},
+  { path: 'Account',loadChildren: 'app/account/account.module#AccountModule',canActivate: [AuthGuard]},
+  { path: 'Category',loadChildren: 'app/category/category.module#CategoryModule',canActivate: [AuthGuard]},
+  { path: 'Goods',loadChildren: 'app/goods/goods.module#GoodsModule',canActivate: [AuthGuard]},
+  { path: 'Active',loadChildren: 'app/active/active.module#ActiveModule',canActivate: [AuthGuard]},
+  { path: 'Order',loadChildren: 'app/order/order.module#OrderModule',canActivate: [AuthGuard]},
+  { path: 'Role',loadChildren: 'app/role/role.module#RoleModule',canActivate: [AuthGuard]},
+  { path: 'Permiss',loadChildren: 'app/permiss/permiss.module#PermissModule',canActivate: [AuthGuard]},
+  { path: 'Statistics',loadChildren: 'app/statistics/statistics.module#StatisticsModule',canActivate: [AuthGuard]},
 
 ];
 @NgModule({

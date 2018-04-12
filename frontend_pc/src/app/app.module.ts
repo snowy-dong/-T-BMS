@@ -22,6 +22,7 @@ import { HomeComponent } from './home/home.component';
 
 import { httpInterceptorProviders} from './http-interceptors'
 import {AuthService} from './auth.service'
+import { AuthGuard } from './auth-guard.service';
 import { SessionStorage } from './common/session.storage';
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { SessionStorage } from './common/session.storage';
     TypeaheadModule,
     HttpClientModule
   ],
-  providers: [AuthService, httpInterceptorProviders, SessionStorage],
+  providers: [AuthService, AuthGuard, httpInterceptorProviders, SessionStorage],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
