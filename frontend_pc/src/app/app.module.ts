@@ -9,14 +9,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginModule } from './login/login.module'
 import { AppComponent } from './app.component';
-// import { ActiveModule }  from './active/active.module';
-// import { AccountModule }  from './account/account.module';
-// import { CategoryModule }   from './category/category.module';
-// import { GoodsModule } from './goods/goods.module';
-// import { OrderModule } from './order/order.module';
-// import { RoleModule } from './role/role.module';
-// import { StatisticsModule } from './statistics/statistics.module';
-// import { PermissModule} from './permiss/permiss.module'
 
 import { HomeComponent } from './home/home.component';
 
@@ -36,14 +28,6 @@ import { SessionStorage } from './common/session.storage';
     FormsModule,
     AppRoutingModule,
     LoginModule,
-    // ActiveModule,
-    // AccountModule,
-    // CategoryModule,
-    // GoodsModule,
-    // OrderModule,
-    // RoleModule,
-    // StatisticsModule,
-    // PermissModule,
     TypeaheadModule,
     HttpClientModule
   ],
