@@ -16,7 +16,10 @@ import { httpInterceptorProviders } from './http-interceptors'
 import { AuthService } from './auth.service'
 import { AuthGuard } from './auth-guard.service';
 import { SessionStorage } from './common/session.storage';
-import { ConfirmWindowComponent } from './common/modal/confirm-modal/index'
+import { ConfirmWindowComponent } from './common/modal/confirm-modal'
+
+import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -25,7 +28,7 @@ import { ConfirmWindowComponent } from './common/modal/confirm-modal/index'
   ],
   imports: [
     CommonModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'BMS' }),
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
@@ -33,8 +36,16 @@ import { ConfirmWindowComponent } from './common/modal/confirm-modal/index'
     TypeaheadModule,
     HttpClientModule
   ],
-  entryComponents:[ConfirmWindowComponent],
+  entryComponents:[AppComponent, ConfirmWindowComponent],
   providers: [AuthService, AuthGuard, httpInterceptorProviders, SessionStorage],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(APP_ID) private appId: string) {
+    const platform = isPlatformBrowser(platformId) ?
+      'in the browser' : 'on the server';
+    console.log(`Running ${platform} with appId=${appId}`);
+  }
+ }

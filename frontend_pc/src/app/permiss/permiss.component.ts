@@ -10,7 +10,6 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ModalContentComponent } from './modal/dialogModal/index'
 import { ConfirmWindowComponent } from '../common/modal/confirm-modal'
 
-
 @Component({
   selector: 'app-permiss',
   templateUrl: './permiss.component.html',
