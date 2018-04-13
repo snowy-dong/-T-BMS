@@ -12,14 +12,16 @@ import { AppComponent } from './app.component';
 
 import { HomeComponent } from './home/home.component';
 
-import { httpInterceptorProviders} from './http-interceptors'
-import {AuthService} from './auth.service'
+import { httpInterceptorProviders } from './http-interceptors'
+import { AuthService } from './auth.service'
 import { AuthGuard } from './auth-guard.service';
 import { SessionStorage } from './common/session.storage';
+import { ConfirmWindowComponent } from './common/modal/confirm-modal/index'
 @NgModule({
   declarations: [
     HomeComponent,
     AppComponent,
+    ConfirmWindowComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { SessionStorage } from './common/session.storage';
     TypeaheadModule,
     HttpClientModule
   ],
+  entryComponents:[ConfirmWindowComponent],
   providers: [AuthService, AuthGuard, httpInterceptorProviders, SessionStorage],
   bootstrap: [AppComponent]
 })

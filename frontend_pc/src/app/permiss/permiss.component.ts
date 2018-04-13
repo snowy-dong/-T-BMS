@@ -7,7 +7,8 @@ import 'rxjs/add/observable/combineLatest';
 
 import { PermissService } from './permiss.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import {ModalContentComponent} from './modal/dialogModal/index'
+import { ModalContentComponent } from './modal/dialogModal/index'
+import { ConfirmWindowComponent } from '../common/modal/confirm-modal'
 
 
 @Component({
@@ -50,6 +51,16 @@ export class PermissComponent implements OnInit {
       }
     };
   }
+
+  public openComfirmModal(id:String){
+    this.bsModalRef = this.modalService.show(ConfirmWindowComponent,{});
+    this.bsModalRef.content.onClose = (myData) => {
+      if(myData){
+         this.removeItem(id)
+      }
+      this.bsModalRef.hide();
+    }
+  }
   // 初始化
   public ngOnInit(): void {
     this.route.params.subscribe((params) => this.username = params.username);
@@ -78,9 +89,12 @@ export class PermissComponent implements OnInit {
     this.openModal();
     this.bsModalRef.content.item = item;
   }
-
   // 删除
   public delete(id: String): void {
+   this.openComfirmModal(id)
+  }
+
+  private removeItem(id:String){
     this.PermissService.delete(id)
       .subscribe(data => {
         this.getList(this.params);
