@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "ng2"
+    "name": "angular.io-example"
   },
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "dist/browser",
       "assets": [
         "assets",
         "favicon.ico"
@@ -27,8 +27,26 @@
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
-    }
-  ],
+    },
+    {
+      "platform": "server",
+      "root": "src",
+      "outDir": "dist/server",
+      "assets": [],
+      "index": "index.html",
+      "main": "main.server.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.server.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+       "dev": "environments/environment.ts",
+       "prod": "environments/environment.prod.ts"
+      }
+     }
+    ],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
@@ -54,7 +72,7 @@
     }
   },
   "defaults": {
-    "styleExt": "less",
+    "styleExt": "css",
     "component": {}
   }
 }

@@ -23,6 +23,7 @@ export class PermissComponent implements OnInit {
   public code: any;
   public data: Object;
   public bsModalRef: BsModalRef;
+  public keywords:String = ''
   public params: any = {
     pageNo: 1,
     pageSize: 10

@@ -8,7 +8,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   providers: [AccountService]
 })
 export class AccountComponent implements OnInit {
-
+  public keywords:String = ''
   public data: Object;
   public modalRef: BsModalRef;
   public params: any = {

@@ -7,12 +7,12 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   providers: [PermissService]
 })
 export class ModalContentComponent implements OnInit {
-  public item: Object={
+  public item:{
     permiss_name:'',
     permiss_code:''
   };
   public onClose: any;
-  constructor(private bsModalRef: BsModalRef, private PermissService: PermissService) {}
+  constructor(public bsModalRef: BsModalRef, private PermissService: PermissService) {}
 
   ngOnInit() {
     console.log('ngOnInit')

@@ -12,6 +12,7 @@ export class RoleComponent implements OnInit {
 
   public data: Object;
   public modalRef: BsModalRef;
+  public keywords:String = ''
   public params: any = {
     pageNo: 1,
     pageSize: 2

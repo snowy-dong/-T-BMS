@@ -10,6 +10,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 })
 
 export class CategoryComponent implements OnInit {
+  public keywords:String = ''
   modalRef: BsModalRef;
   constructor(private CategoryService: CategoryService,private modalService: BsModalService) {
   }
