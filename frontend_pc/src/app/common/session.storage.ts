@@ -1,15 +1,20 @@
-import {Provider} from '@angular/core';
+import {Provider, PLATFORM_ID, Inject} from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 export class SessionStorage {
 
     public sessionStorage:any;
-
-    constructor() {
+    public platform:any;
+    constructor( @Inject(PLATFORM_ID) private platformId: Object,) {
+      this.platform = isPlatformBrowser(platformId) ?'browser' : 'server';
+      if(this.platform ==='browser'){
         if (!sessionStorage) {
-            throw new Error('Current browser does not support Local Storage');
-        }
-        this.sessionStorage = sessionStorage;
+          throw new Error('Current browser does not support Local Storage');
+      }
+          this.sessionStorage = sessionStorage;
+      }else{
+        this.sessionStorage = {};
+      }
     }
-
     public set(key:string, value:string):void {
         this.sessionStorage[key] = value;
     }
