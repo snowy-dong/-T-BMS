@@ -1,6 +1,6 @@
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TypeaheadModule,ModalModule   } from 'ngx-bootstrap';
@@ -38,7 +38,7 @@ import { isPlatformBrowser } from '@angular/common';
     HttpClientModule
   ],
   entryComponents:[AppComponent, ConfirmWindowComponent],
-  providers: [AuthService, AuthGuard, httpInterceptorProviders, SessionStorage],
+  providers: [AuthService, AuthGuard, httpInterceptorProviders, SessionStorage,{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
