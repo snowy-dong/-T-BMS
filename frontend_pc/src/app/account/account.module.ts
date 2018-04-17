@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ButtonsModule, ModalModule, AccordionModule, PaginationModule } from 'ngx-bootstrap';
 import { AccountComponent } from './account.component';
 import { AccountRoutingModule } from './account.routing.module';
+import { ExeBackgroundDirective } from '../common/Directive/exeBackground'
+import { UnlessDirective } from '../common/Directive/exeUnless'
 
 @NgModule({
   imports: [
@@ -14,6 +16,6 @@ import { AccountRoutingModule } from './account.routing.module';
     AccordionModule.forRoot(),
     ButtonsModule.forRoot(),
     PaginationModule.forRoot()],
-  declarations: [AccountComponent],
+  declarations: [AccountComponent, ExeBackgroundDirective, UnlessDirective],
 })
 export class AccountModule { }
