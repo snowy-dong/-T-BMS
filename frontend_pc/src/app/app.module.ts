@@ -35,6 +35,7 @@ import { isPlatformBrowser } from '@angular/common';
     AppRoutingModule,
     LoginModule,
     TypeaheadModule,
+    ModalModule,
     HttpClientModule
   ],
   entryComponents:[AppComponent, ConfirmWindowComponent],
