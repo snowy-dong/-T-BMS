@@ -30,6 +30,8 @@ export class AuthInterceptor implements HttpInterceptor {
       // console.log(event)
       if (event instanceof HttpResponse && event.body.code != 'S200') {
         if( event.body.code ==='S401'){
+          this.auth.setAuthorizationToken('')
+          this.auth.eventEmit.emit("loginOut");
           this.router.navigate(['Login'])
         }else{
          ErrorObservable.create(event);
