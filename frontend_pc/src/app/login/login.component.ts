@@ -28,10 +28,16 @@ export class LoginComponent implements OnInit {
     }
     this.loginService.login(data)
     .subscribe((data:any) => {
-      this.auth.setAuthorizationToken(data.data)
       this.data = data
-      this.auth.eventEmit.emit("login");
-      this.router.navigate(['Account'])
+      if(data.code === 'S200'){
+        this.auth.setAuthorizationToken(data.data)
+        this.auth.eventEmit.emit("login");
+        this.router.navigate(['Account'])
+      }else{
+        this.auth.setAuthorizationToken('')
+        this.auth.eventEmit.emit("loginOut");
+        console.log(data.msg)
+      }
     })
   }
 }
