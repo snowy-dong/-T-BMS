@@ -27,15 +27,17 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   canLoad(route: Route): boolean {
     let url = `/${route.path}`;
-
     return this.checkLogin(url);
   }
 
   checkLogin(url: string): boolean {
-    if (this.authService.Token) { return true; }
 
-    // Navigate to the login page with extras
-    this.router.navigate(['/Login']);
-    return false;
+    if (this.authService.Token) {
+      return true;
+    }else{
+      // Navigate to the login page with extras
+      this.router.navigate(['/Login']);
+      return false;
+    }
   }
 }

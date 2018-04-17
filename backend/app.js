@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var proxy = require('http-proxy-middleware');
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
@@ -17,12 +18,13 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use('^/api', proxy({ target: 'http://localhost:3000', changeOrigin: true, pathRewrite: {"^/api": ""} }));
 // 拦截器
 app.all('/*', function (req, res, next) {
   // console.log(req.headers.authorization)
   // next();
   console.log(req.url);
+  console.log(req.headers);
 if (req.url == '/login') {
     next();
 } else {

@@ -12,7 +12,7 @@ export class SessionStorage {
       }
           this.sessionStorage = sessionStorage;
       }else{
-        this.sessionStorage = {};
+        this.sessionStorage = this.sessionStorage ? this.sessionStorage :{};
       }
     }
     public set(key:string, value:string):void {
