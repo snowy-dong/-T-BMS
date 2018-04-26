@@ -6,7 +6,11 @@ import { AccountComponent } from './account.component';
 import { AccountRoutingModule } from './account.routing.module';
 import { ExeBackgroundDirective } from '../common/Directive/exeBackground'
 import { UnlessDirective } from '../common/Directive/exeUnless'
-
+import { ChildComponent } from '../common/component/child.component'
+import { ViewEncapsulationNoneComponent } from '../common/component/ViewEncapsulation/ViewEncapsulation.None'
+import { ViewEncapsulationEmulatedComponent } from '../common/component/ViewEncapsulation/ViewEncapsulation.Emulated'
+import { ViewEncapsulationNativeComponent } from '../common/component/ViewEncapsulation/ViewEncapsulation.Native'
+import { CounterComponent } from '../common/@Input/counter.component'
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +20,15 @@ import { UnlessDirective } from '../common/Directive/exeUnless'
     AccordionModule.forRoot(),
     ButtonsModule.forRoot(),
     PaginationModule.forRoot()],
-  declarations: [AccountComponent, ExeBackgroundDirective, UnlessDirective],
+  declarations: [
+    AccountComponent,
+    ExeBackgroundDirective,
+    UnlessDirective,
+    ChildComponent,
+    ViewEncapsulationNoneComponent,
+    ViewEncapsulationEmulatedComponent,
+    ViewEncapsulationNativeComponent,
+    CounterComponent
+  ],
 })
 export class AccountModule { }

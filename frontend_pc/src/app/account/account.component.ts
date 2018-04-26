@@ -15,6 +15,8 @@ export class AccountComponent implements OnInit {
     pageNo: 1,
     pageSize: 2
   };
+  name="account name"
+  initialCount:number =5
   constructor(private AccountService: AccountService, private modalService: BsModalService) {
   }
   public openModal(template: TemplateRef<any>) {
@@ -32,6 +34,7 @@ export class AccountComponent implements OnInit {
   }
   // 搜索
   public search(name: String): void {
+    this.name="account name2"
     this.params.keyword = name;
     this.getList(this.params)
   }

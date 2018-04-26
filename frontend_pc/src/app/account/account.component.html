@@ -9,7 +9,12 @@
     </form>
   </div>
   <div class="content">
-    <h1 [exeBackground]="'gray'" *exeUnless = 'true'>Hello '{{name}}'</h1>
+    <h1 [exeBackground]="'gray'" *exeUnless = 'false'>Hello '{{name}}'</h1>
+    <exe-child name="{{name}}"></exe-child>
+    <my-viewEncapsulation-none></my-viewEncapsulation-none>
+    <my-viewEncapsulation-emulated></my-viewEncapsulation-emulated>
+    <my-viewEncapsulation-native></my-viewEncapsulation-native>
+    <input-counter [count]="initialCount"></input-counter>
     <table class="table table-striped">
       <thead>
         <tr>
