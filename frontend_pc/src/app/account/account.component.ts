@@ -1,4 +1,4 @@
-import { Component, TemplateRef, OnInit, NgModule, Directive } from '@angular/core';
+import { Component, TemplateRef, OnInit, NgModule, Directive,  } from '@angular/core';
 import { AccountService } from './account.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 @Component({
@@ -17,7 +17,12 @@ export class AccountComponent implements OnInit {
   };
   name="account name"
   initialCount:number =5
+  changeMsg: string;
+  username: string = '';
   constructor(private AccountService: AccountService, private modalService: BsModalService) {
+  }
+  countChange(event: number){
+    this.changeMsg = `子组件change事件已触发，当前值是: ${event}`;
   }
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);

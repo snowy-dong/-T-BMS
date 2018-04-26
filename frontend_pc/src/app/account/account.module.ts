@@ -10,7 +10,9 @@ import { ChildComponent } from '../common/component/child.component'
 import { ViewEncapsulationNoneComponent } from '../common/component/ViewEncapsulation/ViewEncapsulation.None'
 import { ViewEncapsulationEmulatedComponent } from '../common/component/ViewEncapsulation/ViewEncapsulation.Emulated'
 import { ViewEncapsulationNativeComponent } from '../common/component/ViewEncapsulation/ViewEncapsulation.Native'
-import { CounterComponent } from '../common/@Input/counter.component'
+import { InputCounterComponent } from '../common/@Input/counter.component'
+import { OuputCounterComponent } from '../common/@Output/counter.component'
+import {}
 @NgModule({
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { CounterComponent } from '../common/@Input/counter.component'
     ViewEncapsulationNoneComponent,
     ViewEncapsulationEmulatedComponent,
     ViewEncapsulationNativeComponent,
-    CounterComponent
+    InputCounterComponent,
+    OuputCounterComponent
   ],
 })
 export class AccountModule { }

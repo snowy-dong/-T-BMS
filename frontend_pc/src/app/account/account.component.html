@@ -15,6 +15,21 @@
     <my-viewEncapsulation-emulated></my-viewEncapsulation-emulated>
     <my-viewEncapsulation-native></my-viewEncapsulation-native>
     <input-counter [count]="initialCount"></input-counter>
+    <p>{{changeMsg}}</p>
+    <output-counter [count]="initialCount" (change)="countChange($event)"></output-counter>
+
+    <p>Two-Way Data Binding->父组件当前值：{{ initialCount }}</p>
+    <output-counter [count]="initialCount"
+     (change)="initialCount = $event"></output-counter>
+    <p>[] 实现了模型到视图的数据绑定，() 实现了视图到模型的事件绑定。两个结合在一起 [()] 就实现了双向绑定。也被称为 banana in the box 语法</p>
+    <output-counter [(count)]="initialCount"></output-counter>
+    <p> Angular 2 中ngModel</p>
+    <p>你输入的用户名是：{{ username }}</p>
+    <input type="text"
+       [(ngModel)]="username"
+       #nameModel="ngModel"
+       required/>
+    {{nameModel.errors | json}}
     <table class="table table-striped">
       <thead>
         <tr>
