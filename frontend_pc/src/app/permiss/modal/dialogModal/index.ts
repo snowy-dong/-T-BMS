@@ -7,7 +7,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   providers: [PermissService]
 })
 export class ModalContentComponent implements OnInit {
-  public item:object={
+  public item={
     permiss_name:'',
     permiss_code:''
   };
