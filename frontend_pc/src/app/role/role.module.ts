@@ -5,13 +5,14 @@ import { RoleComponent } from './role.component';
 import { RoleService } from './role.service';
 import { RoleRoutingModule } from './role.routing.module';
 import { ButtonsModule, ModalModule, AccordionModule, PaginationModule } from 'ngx-bootstrap';
-
+import { NgxSelectModule } from 'ngx-select-ex';
 
 @NgModule({
   imports: [
     CommonModule,
     RoleRoutingModule,
     FormsModule,
+    NgxSelectModule,
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
     ButtonsModule.forRoot(),

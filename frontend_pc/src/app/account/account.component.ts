@@ -8,6 +8,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   providers: [AccountService]
 })
 export class AccountComponent implements OnInit {
+  items: string[];
   public keywords:String = ''
   public data: Object;
   public modalRef: BsModalRef;
@@ -20,6 +21,7 @@ export class AccountComponent implements OnInit {
   changeMsg: string;
   username: string = '';
   constructor(private AccountService: AccountService, private modalService: BsModalService) {
+    this.items = ['111', '222']
   }
   countChange(event: number){
     this.changeMsg = `子组件change事件已触发，当前值是: ${event}`;
@@ -39,11 +41,18 @@ export class AccountComponent implements OnInit {
   }
   // 搜索
   public search(name: String): void {
-    this.name="account name2"
     this.params.keyword = name;
     this.getList(this.params)
   }
-  // 添加权限
+  // 获取角色
+  public getRole(obj: Object): void {
+    this.AccountService.add(obj)
+      .subscribe(data => {
+        console.log(data)
+        this.modalRef.hide();
+      })
+  }
+  // 添加账户
   public add(obj: Object): void {
     this.AccountService.add(obj)
       .subscribe(data => {

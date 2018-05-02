@@ -47,10 +47,10 @@
       <tbody *ngIf="data">
         <tr *ngFor="let item of data.list;  index as i;">
           <td>{{i}}</td>
-          <td>{{item.account_name}}</td>
-          <td>{{item.account_name}}</td>
-          <td>{{item.account_name}}</td>
-          <td>{{item.account_name}}</td>
+          <td>{{item.user_name}}</td>
+          <td>{{item.user_name}}</td>
+          <td>{{item.gender}}</td>
+          <td>{{item.cell_phone}}</td>
           <td>
             <a (click)="edit(item.id)">编辑</a>
             <a (click)="delete(item.id)">删除</a>
@@ -76,7 +76,8 @@
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">选择权限：</label>
-          <input type="email" class="form-control" id="code" placeholder="请输入CODE" [(ngModel)]="code" name="code">
+          <ngx-select [items]="items"  [multiple]='true' [(ngModel)]="code" name="code"></ngx-select>
+          <!-- <input type="email" class="form-control" id="code" placeholder="请输入CODE" [(ngModel)]="code" name="code"> -->
         </div>
         <button type="btn" class="btn btn-default" (click)="add({name:name,code:code})">Submit</button>
       </form>

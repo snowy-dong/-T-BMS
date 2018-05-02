@@ -38,12 +38,13 @@
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
     "ngx-bootstrap": "^2.0.3",
+    "ngx-select-ex": "^3.5.4",
     "rxjs": "^5.5.0",
     "ts-loader": "3.1.1",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/cli": "1.6.5",
+    "@angular/cli": "^1.6.5",
     "@types/jasmine": "~2.8.0",
     "@types/jasminewd2": "^2.0.3",
     "@types/node": "^6.0.45",

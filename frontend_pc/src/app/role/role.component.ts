@@ -1,14 +1,16 @@
 import { Component, TemplateRef, OnInit, NgModule, Directive } from '@angular/core';
 import { RoleService } from './role.service'
+import { PermissService } from '../permiss/permiss.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.less'],
-  providers: [RoleService]
+  providers: [RoleService, PermissService]
 })
 export class RoleComponent implements OnInit {
+  permissList: Object;
 
   public data: Object;
   public modalRef: BsModalRef;
@@ -17,10 +19,15 @@ export class RoleComponent implements OnInit {
     pageNo: 1,
     pageSize: 2
   };
-  constructor(private RoleService: RoleService, private modalService: BsModalService) {
+  constructor(
+    private RoleService: RoleService,
+    private modalService: BsModalService,
+    private permissService:PermissService
+  ) {
   }
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+    this.getPermiss()
   }
   public ngOnInit(): void {
     this.getList(this.params);
@@ -37,7 +44,15 @@ export class RoleComponent implements OnInit {
     this.params.keyword = name;
     this.getList(this.params)
   }
-  // 添加权限
+  // 获取权限
+  public getPermiss(): void {
+    this.permissService.getList({})
+      .subscribe(data => {
+        this.permissList = data
+        console.log(data)
+      })
+  }
+  // 添加角色
   public addRole(obj: Object): void {
     this.RoleService.add(obj)
       .subscribe(data => {
