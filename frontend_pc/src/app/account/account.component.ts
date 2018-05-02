@@ -1,13 +1,15 @@
 import { Component, TemplateRef, OnInit, NgModule, Directive,  } from '@angular/core';
 import { AccountService } from './account.service'
+import { RoleService } from '../role/role.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.less'],
-  providers: [AccountService]
+  providers: [AccountService, RoleService]
 })
 export class AccountComponent implements OnInit {
+  roleList: Object;
   items: string[];
   public keywords:String = ''
   public data: Object;
@@ -20,7 +22,11 @@ export class AccountComponent implements OnInit {
   initialCount:number =5
   changeMsg: string;
   username: string = '';
-  constructor(private AccountService: AccountService, private modalService: BsModalService) {
+  constructor(
+    private AccountService: AccountService,
+    private modalService: BsModalService,
+    private RoleService:RoleService
+  ) {
     this.items = ['111', '222']
   }
   countChange(event: number){
@@ -28,6 +34,7 @@ export class AccountComponent implements OnInit {
   }
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+    this.getRole();
   }
   public ngOnInit(): void {
     this.getList(this.params);
@@ -45,9 +52,10 @@ export class AccountComponent implements OnInit {
     this.getList(this.params)
   }
   // 获取角色
-  public getRole(obj: Object): void {
-    this.AccountService.add(obj)
+  public getRole(): void {
+    this.RoleService.getList({})
       .subscribe(data => {
+        this.roleList = data
         console.log(data)
         this.modalRef.hide();
       })

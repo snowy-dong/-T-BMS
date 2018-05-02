@@ -7,7 +7,7 @@ router.post('/', function(req, res, next) {
   console.log(req.body)
   count();
   function count(){
-    let sqlonlycount = `select count(1) from  user where user_name = "`+ req.body.user_name +`";`;
+    let sqlonlycount = `select count(1) from  user where user_name = "`+ req.body.name +`";`;
     db.query(sqlonlycount, function(err, results, fields){  
       if (err) throw err;
       console.log(results[0]['count(1)'])
@@ -22,9 +22,30 @@ router.post('/', function(req, res, next) {
     });  
   }
   function insert (){
-  let sql = `insert into user values(0,"`+ req.body.user_name +`");`;  
+  let sql = `insert into user values(0,"`+ req.body.name +`");`;  
     db.query(sql, function(err, results, fields){  
       if (err) throw err;
+      console.log('results')
+      console.log(results)
+      insertRole_Permiss(results.insertId)
+      // res.send({
+      //   code: 'S200',
+      //   msg:""
+      // });
+    });
+  }
+  function insertRole_Permiss(results){
+    console.log(req.body.role)
+    let sql = `insert into user_role (user_id, role_id) values `;  
+    req.body.role.forEach(element => {
+      sql+= `(${results}, ${element}),`;  
+    
+    });
+    sql = sql.substr(0, sql.length - 1) + ';';
+    console.log(sql)
+    db.query(sql, function(err, results, fields){  
+      if (err) throw err;
+      console.log(results)
       res.send({
         code: 'S200',
         msg:""

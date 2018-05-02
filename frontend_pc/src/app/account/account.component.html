@@ -71,15 +71,39 @@
     <div class="modal-body">
       <form>
         <div class="form-group">
-          <label for="exampleInputEmail1">角色名称：</label>
+          <label for="exampleInputEmail1">账户名称：</label>
           <input type="email" class="form-control" id="name" placeholder="请输入名称" [(ngModel)]="name" name="name">
         </div>
         <div class="form-group">
+          <label for="exampleInputEmail1">性别：</label>
+          <input type="email" class="form-control" id="name" placeholder="请输入性别" [(ngModel)]="name" name="name">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">手机号：</label>
+          <input type="email" class="form-control" id="name" placeholder="请输入手机号" [(ngModel)]="name" name="name">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">邮箱：</label>
+          <input type="email" class="form-control" id="name" placeholder="请输入邮箱" [(ngModel)]="name" name="name">
+        </div>
+        <div class="form-group">
           <label for="exampleInputEmail1">选择权限：</label>
-          <ngx-select [items]="items"  [multiple]='true' [(ngModel)]="code" name="code"></ngx-select>
+          <ngx-select [items]="roleList && roleList.list"  [multiple]='true' [(ngModel)]="role" name="code">
+            <ng-template ngx-select-option-selected let-option let-text="text">
+              {{option.data.role_name}}
+            </ng-template>
+
+            <ng-template ngx-select-option let-option let-text="text">
+                {{option.data.role_name}}
+            </ng-template>
+
+            <ng-template ngx-select-option-not-found>
+                Nothing found
+            </ng-template>
+          </ngx-select>
           <!-- <input type="email" class="form-control" id="code" placeholder="请输入CODE" [(ngModel)]="code" name="code"> -->
         </div>
-        <button type="btn" class="btn btn-default" (click)="add({name:name,code:code})">Submit</button>
+        <button type="btn" class="btn btn-default" (click)="add({name:name,role:role})">Submit</button>
       </form>
     </div>
   </ng-template>

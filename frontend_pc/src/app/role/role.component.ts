@@ -22,7 +22,7 @@ export class RoleComponent implements OnInit {
   constructor(
     private RoleService: RoleService,
     private modalService: BsModalService,
-    private permissService:PermissService
+    private PermissService:PermissService
   ) {
   }
   public openModal(template: TemplateRef<any>) {
@@ -46,7 +46,7 @@ export class RoleComponent implements OnInit {
   }
   // 获取权限
   public getPermiss(): void {
-    this.permissService.getList({})
+    this.PermissService.getList({})
       .subscribe(data => {
         this.permissList = data
         console.log(data)
