@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50559
 File Encoding         : 65001
 
-Date: 2018-04-02 17:29:06
+Date: 2018-05-02 18:17:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `permiss` (
   `permiss_code` varchar(255) DEFAULT NULL,
   `permiss_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of permiss
@@ -47,11 +47,13 @@ CREATE TABLE `role` (
   `role_name` varchar(16) NOT NULL,
   `role_code` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
+INSERT INTO `role` VALUES ('8', '管理员', 'ADMIN');
+INSERT INTO `role` VALUES ('9', '超级管理员', 'MASTER');
 
 -- ----------------------------
 -- Table structure for role_permiss
@@ -62,11 +64,21 @@ CREATE TABLE `role_permiss` (
   `role_id` varchar(255) NOT NULL,
   `permiss_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role_permiss
 -- ----------------------------
+INSERT INTO `role_permiss` VALUES ('5', '8', '1');
+INSERT INTO `role_permiss` VALUES ('6', '8', '2');
+INSERT INTO `role_permiss` VALUES ('7', '9', '1');
+INSERT INTO `role_permiss` VALUES ('8', '9', '2');
+INSERT INTO `role_permiss` VALUES ('9', '9', '3');
+INSERT INTO `role_permiss` VALUES ('10', '9', '4');
+INSERT INTO `role_permiss` VALUES ('11', '9', '6');
+INSERT INTO `role_permiss` VALUES ('12', '9', '7');
+INSERT INTO `role_permiss` VALUES ('13', '9', '8');
+INSERT INTO `role_permiss` VALUES ('14', '9', '9');
 
 -- ----------------------------
 -- Table structure for user
@@ -82,11 +94,12 @@ CREATE TABLE `user` (
   `leave_date` date DEFAULT NULL,
   `gender` char(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES ('1', 'test', '123456', '123456@qq.com', '18133669988', '2018-04-02', null, 'male');
 
 -- ----------------------------
 -- Table structure for user_role
