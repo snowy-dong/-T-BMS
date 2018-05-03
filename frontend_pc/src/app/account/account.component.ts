@@ -3,6 +3,8 @@ import { DatePipe } from '@angular/common';
 import { AccountService } from './account.service'
 import { RoleService } from '../role/role.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { ModalContentComponent } from './modal/dialogModal/index'
+import { ConfirmWindowComponent } from '../common/modal/confirm-modal'
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
@@ -10,7 +12,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   providers: [AccountService, RoleService, DatePipe]
 })
 export class AccountComponent implements OnInit {
-  roleList: Object;
+  bsModalRef: BsModalRef;
   items: string[];
   public keywords:String = ''
   public data: Object;
@@ -19,15 +21,7 @@ export class AccountComponent implements OnInit {
     pageNo: 1,
     pageSize: 10
   };
-  adduser:any = {
-    name:null,
-    email:null,
-    cellphone:null,
-    joinDate:null,
-    gender:null,
-    role:[]
 
-  }
   name="account name"
   initialCount:number =5
   changeMsg: string;
@@ -43,13 +37,32 @@ export class AccountComponent implements OnInit {
   countChange(event: number){
     this.changeMsg = `子组件change事件已触发，当前值是: ${event}`;
   }
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-    this.getRole();
-  }
   public ngOnInit(): void {
     this.getList(this.params);
   }
+  // 弹窗
+  public openModal(id:any) {
+    const initialState = {
+      id: id
+    };
+    this.bsModalRef = this.modalService.show(ModalContentComponent, {initialState});
+    this.bsModalRef.content.onClose = (myData) => {
+      if(myData){
+          this.bsModalRef.hide();
+          this.getList(this.params);
+      }
+    };
+  }
+  public openComfirmModal(id:String){
+    this.bsModalRef = this.modalService.show(ConfirmWindowComponent,{});
+    this.bsModalRef.content.onClose = (myData) => {
+      if(myData){
+         this.removeItem(id)
+      }
+      this.bsModalRef.hide();
+    }
+  }
+
   // 获取列表
   public getList(params: Object): void {
     this.AccountService.getList(params)
@@ -62,38 +75,21 @@ export class AccountComponent implements OnInit {
     this.params.keyword = name;
     this.getList(this.params)
   }
-  // 获取角色
-  public getRole(): void {
-    this.RoleService.getList({})
-      .subscribe(data => {
-        this.roleList = data
-        console.log(data)
-      })
-  }
-  // 添加账户
-  public add(): void {
-    this.adduser.joinDate = this.datePipe.transform(this.adduser.joinDate, 'yyyy-MM-dd');
-    this.AccountService.add(this.adduser)
-      .subscribe(data => {
-        console.log(data)
-        this.modalRef.hide();
-        return this.getList(this.params);
-      })
-  }
+
   // 编辑
   public edit(id: String, obj: Object): void {
-    this.AccountService.edit(id, obj)
-      .subscribe(data => {
-        console.log(data)
-        this.modalRef.hide();
-      })
+    this.openModal(id);
   }
+   // 确认删除
+   public delete(id: String): void {
+    this.openComfirmModal(id)
+  }
+
   // 删除
-  public delete(id: String): void {
+  private removeItem(id:String){
     this.AccountService.delete(id)
       .subscribe(data => {
-        console.log(data)
-        this.modalRef.hide();
+        this.getList(this.params);
       })
   }
   // 切换页码

@@ -92,8 +92,8 @@ router.get('/:id', function(req, res, next) {
   console.log(req.params.id)
   // var sql= `select * from role WHERE id=`+req.params.id;  
   var sql=`SELECT role_id as id,
-  role_code,
-  role_name,
+  role_code as code,
+  role_name as name,
   GROUP_CONCAT('{"id":',permiss_id,',\"permiss_code\":\"',permiss_code,'\",\"permiss_name\":\"', permiss_name,'\"}') as permiss 
   FROM role r INNER  JOIN  role_permiss rp ON r.id = rp.role_id 
   INNER  JOIN permiss p  ON p.id = rp.permiss_id

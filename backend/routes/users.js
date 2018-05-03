@@ -92,10 +92,11 @@ router.get('/:id', function(req, res, next) {
   console.log(req.params.id)
   // var sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender from user WHERE id=`+req.params.id;  
   var sql=`SELECT user_id as id,
-  user_name,email,
-  cell_phone,
-  join_date,
-  leave_date,
+  user_name as name,
+  email,
+  cell_phone as cellphone,
+  join_date as joinDate,
+  leave_date as leaveDate,
   gender,
   GROUP_CONCAT('{"id":',role_id,',\"role_code\":\"',role_code,'\",\"role_name\":\"', role_name,'\"}') as role 
   FROM user u INNER  JOIN  user_role ur ON u.id = ur.user_id 

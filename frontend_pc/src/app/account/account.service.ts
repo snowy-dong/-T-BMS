@@ -10,10 +10,13 @@ export class AccountService {
   getList(params) {
     return this.http.get('/api/users/list', { params: params });
   }
+  getDetail(id){
+    return this.http.get('/api/users/' + id);
+  }
   edit(id, params) {
-    return this.http.get('/api/users/' + id, { params: params });
+    return this.http.put('/api/users/' + id, { params: params });
   }
   delete(id) {
-    return this.http.get('/api/users/' + id);
+    return this.http.delete('/api/users/' + id);
   }
 }

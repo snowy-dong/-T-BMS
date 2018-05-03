@@ -11,10 +11,13 @@ export class RoleService {
   getList(params) {
     return this.http.get('/api/role/list', { params: params });
   }
+  getDetail(id) {
+    return this.http.get('/api/role/' + id);
+  }
   edit(id, params) {
-    return this.http.get('/api/role/' + id, { params: params });
+    return this.http.put('/api/role/' + id, { params: params });
   }
   delete(id) {
-    return this.http.get('/api/role/' + id);
+    return this.http.delete('/api/role/' + id);
   }
 }

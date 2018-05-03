@@ -13,6 +13,7 @@ import { ViewEncapsulationNativeComponent } from '../common/component/ViewEncaps
 import { InputCounterComponent } from '../common/@Input/counter.component'
 import { OuputCounterComponent } from '../common/@Output/counter.component'
 import { NgxSelectModule } from 'ngx-select-ex';
+import { ModalContentComponent } from './modal/dialogModal/index'
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +34,9 @@ import { NgxSelectModule } from 'ngx-select-ex';
     ViewEncapsulationEmulatedComponent,
     ViewEncapsulationNativeComponent,
     InputCounterComponent,
-    OuputCounterComponent
+    OuputCounterComponent,
+    ModalContentComponent
   ],
+  entryComponents:[AccountComponent, ModalContentComponent],
 })
 export class AccountModule { }

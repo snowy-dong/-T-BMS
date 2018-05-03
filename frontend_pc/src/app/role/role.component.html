@@ -33,7 +33,7 @@
     <pagination *ngIf="data" [totalItems]="data.count" [(ngModel)]="params.pageNo" (pageChanged)="pageChanged($event)" pageBtnClass="btn"
       [itemsPerPage]="params.pageSize" previousText="上一页" nextText="下一页" class="pull-left"></pagination>
   </div>
-  <ng-template #template>
+  <!-- <ng-template #template>
     <div class="modal-header">
       <h4 class="modal-title pull-left">添加角色</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -70,5 +70,5 @@
         <button type="btn" class="btn btn-default" (click)="addRole({name:name,code:code,permiss:permiss})">Submit</button>
       </form>
     </div>
-  </ng-template>
+  </ng-template> -->
 </div>
