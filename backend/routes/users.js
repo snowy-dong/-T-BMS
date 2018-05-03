@@ -90,9 +90,21 @@ router.get('/list', function(req, res, next) {
 });
 router.get('/:id', function(req, res, next) {
   console.log(req.params.id)
-  var sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender from user WHERE id=`+req.params.id;  
+  // var sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender from user WHERE id=`+req.params.id;  
+  var sql=`SELECT user_id as id,
+  user_name,email,
+  cell_phone,
+  join_date,
+  leave_date,
+  gender,
+  GROUP_CONCAT('{"id":',role_id,',\"role_code\":\"',role_code,'\",\"role_name\":\"', role_name,'\"}') as role 
+  FROM user u INNER  JOIN  user_role ur ON u.id = ur.user_id 
+  INNER  JOIN role r  ON r.id = ur.role_id
+  WHERE u.id=${req.params.id}
+  `
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
+    results[0].role =JSON.parse("["+results[0].role+"]")
     res.send({
         code: 'S200',
         data:results
