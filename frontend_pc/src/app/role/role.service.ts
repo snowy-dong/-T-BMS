@@ -14,8 +14,8 @@ export class RoleService {
   getDetail(id) {
     return this.http.get('/api/role/' + id);
   }
-  edit(id, params) {
-    return this.http.put('/api/role/' + id, { params: params });
+  edit(id, data) {
+    return this.http.put('/api/role/' + id, data);
   }
   delete(id) {
     return this.http.delete('/api/role/' + id);

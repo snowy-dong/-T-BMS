@@ -13,8 +13,8 @@ export class AccountService {
   getDetail(id){
     return this.http.get('/api/users/' + id);
   }
-  edit(id, params) {
-    return this.http.put('/api/users/' + id, { params: params });
+  edit(id, data) {
+    return this.http.put('/api/users/' + id, data );
   }
   delete(id) {
     return this.http.delete('/api/users/' + id);

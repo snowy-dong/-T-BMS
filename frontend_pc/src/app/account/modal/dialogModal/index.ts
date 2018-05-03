@@ -61,15 +61,15 @@ export class ModalContentComponent implements OnInit {
     })
   }
   // 编辑
-  public edit(id: String, obj: Object): void {
-    this.AccountService.edit(id, obj)
+  public edit(id: String, item: any): void {
+    item.joinDate = this.datePipe.transform(item.joinDate, 'yyyy-MM-dd');
+    this.AccountService.edit(id, item)
       .subscribe(data => {
         console.log(data)
         this.onClose('yes')
       })
   }
   // 添加用户
-  // 添加账户
   public add(item:any): void {
     item.joinDate = this.datePipe.transform(item.joinDate, 'yyyy-MM-dd');
     this.AccountService.add(item)

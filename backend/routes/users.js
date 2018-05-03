@@ -29,7 +29,7 @@ router.post('/', function(req, res, next) {
       console.log('results')
       console.log(results)
       if(req.body.role.length>0){
-        insertRole_Permiss(results.insertId)
+        insertUser_Role(results.insertId, req, res)
       }else{
         res.send({
           code: 'S200',
@@ -38,24 +38,7 @@ router.post('/', function(req, res, next) {
       }
     });
   }
-  function insertRole_Permiss(results){
-    console.log(req.body.role)
-    let sql = `insert into user_role (user_id, role_id) values `;  
-    req.body.role.forEach(element => {
-      sql+= `(${results}, ${element}),`;  
-    
-    });
-    sql = sql.substr(0, sql.length - 1) + ';';
-    console.log(sql)
-    db.query(sql, function(err, results, fields){  
-      if (err) throw err;
-      console.log(results)
-      res.send({
-        code: 'S200',
-        msg:""
-      });
-    });
-  }
+
 });
 router.get('/list', function(req, res, next) {
   var sql='';
@@ -91,7 +74,7 @@ router.get('/list', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   console.log(req.params.id)
   // var sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender from user WHERE id=`+req.params.id;  
-  var sql=`SELECT user_id as id,
+  var sql=`SELECT 
   user_name as name,
   email,
   cell_phone as cellphone,
@@ -105,7 +88,9 @@ router.get('/:id', function(req, res, next) {
   `
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
+    results[0].id = req.params.id
     results[0].role =JSON.parse("["+results[0].role+"]")
+    console.log(results[0].joinDate)
     res.send({
         code: 'S200',
         data:results
@@ -125,14 +110,50 @@ router.delete('/:id', function(req, res, next) {
 });
 router.put('/:id', function(req, res, next) {
   console.log(req.params.id)
-  console.log(req)
-  var sql= `UPDATE user SET user_name="` + req.body.params.user_name + `" WHERE id=` + req.params.id;  
+  var sql= `UPDATE user SET  
+  user_name="${req.body.name}",
+  email = "${req.body.email}",
+  cell_phone = "${req.body.cellphone}",
+  join_date = "${req.body.joinDate}",
+  gender = "${req.body.gender}" 
+  WHERE id=${req.params.id};`;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
-    res.send({
-        code: 'S200',
-        msg:""
-      });
+    deleteRole(req)
   });
+// 删除用户关联的角色
+  function deleteRole(req){
+    var sql= `DELETE FROM user_role WHERE user_id=`+req.params.id;  
+    db.query(sql, function(err, results, fields){  
+      if (err) throw err;
+      if(req.body.role.length>0){
+        insertUser_Role(null,req, res)
+      }else{
+        res.send({
+          code: 'S200',
+          msg:""
+        });
+      }
+    })
+  }
 });
+// 关联用户&角色
+function insertUser_Role(results,req, res){
+  console.log(req.body.role)
+  let sql = `insert into user_role (user_id, role_id) values `;  
+  req.body.role.forEach(element => {
+    sql+= `(${results | req.params.id}, ${element}),`;  
+  
+  });
+  sql = sql.substr(0, sql.length - 1) + ';';
+  console.log(sql)
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
+    console.log(results)
+    res.send({
+      code: 'S200',
+      msg:""
+    });
+  });
+}
 module.exports = router;

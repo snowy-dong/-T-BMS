@@ -28,7 +28,7 @@ router.post('/', function(req, res, next) {
       console.log('results')
       console.log(results)
       if(req.body.permiss.length>0){
-        insertRole_Permiss(results.insertId)
+        insertRole_Permiss(results.insertId,req, res)
       }else{
         res.send({
           code: 'S200',
@@ -37,24 +37,7 @@ router.post('/', function(req, res, next) {
       }
     });
   }
-  function insertRole_Permiss(results){
-    console.log(req.body.permiss)
-    let sql = `insert into role_permiss (role_id,permiss_id) values `;  
-    req.body.permiss.forEach(element => {
-      sql+= `(${results}, ${element}),`;  
-    
-    });
-    sql = sql.substr(0, sql.length - 1) + ';';
-    console.log(sql)
-    db.query(sql, function(err, results, fields){  
-      if (err) throw err;
-      console.log(results)
-      res.send({
-        code: 'S200',
-        msg:""
-      });
-    });
-  }
+
 });
 router.get('/list', function(req, res, next) {
   var sql='';
@@ -101,6 +84,7 @@ router.get('/:id', function(req, res, next) {
   `
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
+    results[0].id = req.params.id
     results[0].permiss =JSON.parse("["+results[0].permiss+"]")
     res.send({
         code: 'S200',
@@ -121,14 +105,49 @@ router.delete('/:id', function(req, res, next) {
 });
 router.put('/:id', function(req, res, next) {
   console.log(req.params.id)
-  console.log(req)
-  var sql= `UPDATE role SET role_code="`+req.body.params.code + `", role_name="` + req.body.params.name + `" WHERE id=` + req.params.id;  
+  console.log(req.body)
+  var sql= `UPDATE role SET role_code="`+req.body.code + `", role_name="` + req.body.name + `" WHERE id=` + req.params.id;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
-    res.send({
-        code: 'S200',
-        msg:""
-      });
+    deleteRole(req)
+    // res.send({
+    //     code: 'S200',
+    //     msg:""
+    //   });
   });
+  // 删除角色关联的权限
+  function deleteRole(req){
+    var sql= `DELETE FROM role_permiss WHERE role_id=`+req.params.id;  
+    db.query(sql, function(err, results, fields){  
+      if (err) throw err;
+      if(req.body.permiss.length>0){
+        insertRole_Permiss(null,req, res)
+      }else{
+        res.send({
+          code: 'S200',
+          msg:""
+        });
+      }
+    })
+  }
 });
+// 关联角色&权限
+function insertRole_Permiss(results,req,res){
+  console.log(req.body.permiss)
+  let sql = `insert into role_permiss (role_id,permiss_id) values `;  
+  req.body.permiss.forEach(element => {
+    sql+= `(${results | req.params.id}, ${element}),`;  
+  
+  });
+  sql = sql.substr(0, sql.length - 1) + ';';
+  console.log(sql)
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
+    console.log(results)
+    res.send({
+      code: 'S200',
+      msg:""
+    });
+  });
+}
 module.exports = router;
