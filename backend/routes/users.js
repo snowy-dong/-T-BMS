@@ -28,7 +28,7 @@ router.post('/', function(req, res, next) {
       if (err) throw err;
       console.log('results')
       console.log(results)
-      if(req.body.role){
+      if(req.body.role.length>0){
         insertRole_Permiss(results.insertId)
       }else{
         res.send({
