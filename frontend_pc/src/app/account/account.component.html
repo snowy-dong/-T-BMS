@@ -69,21 +69,21 @@
         </button>
     </div>
     <div class="modal-body">
-      <form>
+      <form name="from" #ngForm="ngForm">
         <div class="form-group">
           <label for="name">账户名称：</label>
-          <input type="text" class="form-control" id="name" placeholder="请输入名称" [(ngModel)]="adduser.name" name="name">
+          <input type="text" class="form-control" id="name" placeholder="请输入名称" [(ngModel)]="adduser.name" name="name" required>
         </div>
         <div class="form-group">
           <label for="gender">性别：</label>
-          <select class="form-control" name="gender"  id="gender" [(ngModel)]="adduser.gender"  >
+          <select class="form-control" name="gender"  id="gender" [(ngModel)]="adduser.gender"  required>
             <option value="male">男</option>
             <option value="female">女</option>
           </select>
         </div>
         <div class="form-group">
           <label for="cellphone">手机号：</label>
-          <input type="text" class="form-control" id="cellphone" placeholder="请输入手机号" [(ngModel)]="adduser.cellphone" name="cellphone">
+          <input type="text" class="form-control" id="cellphone" placeholder="请输入手机号" [(ngModel)]="adduser.cellphone" name="cellphone" required>
         </div>
         <div class="form-group">
           <label for="email">邮箱：</label>
@@ -92,11 +92,11 @@
         <div class="form-group">
           <label for="joinDate">加入日期：</label>
           {{adduser.joinDate}}
-          <input type="text" class="form-control" id="joinDate" placeholder="请输入日期"  bsDatepicker  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="adduser.joinDate" name="joinDate">
+          <input type="text" class="form-control" id="joinDate" placeholder="请输入日期"  bsDatepicker  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="adduser.joinDate" name="joinDate" required>
         </div>
         <div class="form-group">
           <label for="code">选择权限：</label>
-          <ngx-select [items]="roleList && roleList.list"  [multiple]='true' [(ngModel)]="adduser.role" name="code">
+          <ngx-select [items]="roleList && roleList.list"  [multiple]='true' [(ngModel)]="adduser.role" name="code" >
             <ng-template ngx-select-option-selected let-option let-text="text">
               {{option.data.role_name}}
             </ng-template>
@@ -111,7 +111,8 @@
           </ngx-select>
           <!-- <input type="email" class="form-control" id="code" placeholder="请输入CODE" [(ngModel)]="code" name="code"> -->
         </div>
-        <button type="btn" class="btn btn-default" (click)="add()">Submit</button>
+        {{!ngForm.form.vaild}}
+        <button [disabled]="!ngForm.form.valid" type="btn" class="btn btn-default" (click)="add()">Submit</button>
       </form>
     </div>
   </ng-template>

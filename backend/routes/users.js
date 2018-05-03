@@ -28,11 +28,14 @@ router.post('/', function(req, res, next) {
       if (err) throw err;
       console.log('results')
       console.log(results)
-      insertRole_Permiss(results.insertId)
-      // res.send({
-      //   code: 'S200',
-      //   msg:""
-      // });
+      if(req.body.role){
+        insertRole_Permiss(results.insertId)
+      }else{
+        res.send({
+          code: 'S200',
+          msg:""
+        });
+      }
     });
   }
   function insertRole_Permiss(results){
