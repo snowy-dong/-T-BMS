@@ -1,4 +1,5 @@
-import { Component, TemplateRef, OnInit, NgModule, Directive,  } from '@angular/core';
+import { Component, TemplateRef, OnInit, NgModule, Directive   } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { AccountService } from './account.service'
 import { RoleService } from '../role/role.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
@@ -6,7 +7,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.less'],
-  providers: [AccountService, RoleService]
+  providers: [AccountService, RoleService, DatePipe]
 })
 export class AccountComponent implements OnInit {
   roleList: Object;
@@ -18,6 +19,15 @@ export class AccountComponent implements OnInit {
     pageNo: 1,
     pageSize: 2
   };
+  adduser:any = {
+    name:null,
+    email:null,
+    cellphone:null,
+    joinDate:null,
+    gender:null,
+    role:[]
+
+  }
   name="account name"
   initialCount:number =5
   changeMsg: string;
@@ -25,7 +35,8 @@ export class AccountComponent implements OnInit {
   constructor(
     private AccountService: AccountService,
     private modalService: BsModalService,
-    private RoleService:RoleService
+    private RoleService:RoleService,
+    private datePipe: DatePipe
   ) {
     this.items = ['111', '222']
   }
@@ -57,12 +68,12 @@ export class AccountComponent implements OnInit {
       .subscribe(data => {
         this.roleList = data
         console.log(data)
-        this.modalRef.hide();
       })
   }
   // 添加账户
-  public add(obj: Object): void {
-    this.AccountService.add(obj)
+  public add(): void {
+    this.adduser.joinDate = this.datePipe.transform(this.adduser.joinDate, 'yyyy-MM-dd');
+    this.AccountService.add(this.adduser)
       .subscribe(data => {
         console.log(data)
         this.modalRef.hide();

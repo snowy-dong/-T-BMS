@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ButtonsModule, ModalModule, AccordionModule, PaginationModule } from 'ngx-bootstrap';
+import { ButtonsModule, ModalModule, AccordionModule, PaginationModule, BsDatepickerModule  } from 'ngx-bootstrap';
 import { AccountComponent } from './account.component';
 import { AccountRoutingModule } from './account.routing.module';
 import { ExeBackgroundDirective } from '../common/Directive/exeBackground'
@@ -22,7 +22,8 @@ import { NgxSelectModule } from 'ngx-select-ex';
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
     ButtonsModule.forRoot(),
-    PaginationModule.forRoot()],
+    PaginationModule.forRoot(),
+    BsDatepickerModule.forRoot()],
   declarations: [
     AccountComponent,
     ExeBackgroundDirective,

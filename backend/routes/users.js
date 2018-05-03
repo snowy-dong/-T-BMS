@@ -22,7 +22,8 @@ router.post('/', function(req, res, next) {
     });  
   }
   function insert (){
-  let sql = `insert into user values(0,"`+ req.body.name +`");`;  
+  let sql = `insert into user values(0,"${req.body.name}",123456,"${req.body.email}","${req.body.cellphone}","${req.body.joinDate}",Null ,"${req.body.gender}");`;  
+  console.log(sql)
     db.query(sql, function(err, results, fields){  
       if (err) throw err;
       console.log('results')
