@@ -97,10 +97,11 @@ router.delete('/:id', function(req, res, next) {
   var sql= `DELETE FROM role WHERE id=`+req.params.id;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
-    res.send({
-        code: 'S200',
-        msg:""
-      });
+    deleteRole(req,res)
+    // res.send({
+    //     code: 'S200',
+    //     msg:""
+    //   });
   });
 });
 router.put('/:id', function(req, res, next) {
@@ -109,28 +110,29 @@ router.put('/:id', function(req, res, next) {
   var sql= `UPDATE role SET role_code="`+req.body.code + `", role_name="` + req.body.name + `" WHERE id=` + req.params.id;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
-    deleteRole(req)
+    deleteRole(req,res)
     // res.send({
     //     code: 'S200',
     //     msg:""
     //   });
   });
-  // 删除角色关联的权限
-  function deleteRole(req){
-    var sql= `DELETE FROM role_permiss WHERE role_id=`+req.params.id;  
-    db.query(sql, function(err, results, fields){  
-      if (err) throw err;
-      if(req.body.permiss.length>0){
-        insertRole_Permiss(null,req, res)
-      }else{
-        res.send({
-          code: 'S200',
-          msg:""
-        });
-      }
-    })
-  }
+  
 });
+// 删除角色关联的权限
+function deleteRole(req,res){
+  var sql= `DELETE FROM role_permiss WHERE role_id=`+req.params.id;  
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
+    if(req.body.permiss&&req.body.permiss.length>0){
+      insertRole_Permiss(null,req, res)
+    }else{
+      res.send({
+        code: 'S200',
+        msg:""
+      });
+    }
+  })
+}
 // 关联角色&权限
 function insertRole_Permiss(results,req,res){
   console.log(req.body.permiss)

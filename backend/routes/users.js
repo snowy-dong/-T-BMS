@@ -102,10 +102,7 @@ router.delete('/:id', function(req, res, next) {
   var sql= `DELETE FROM user WHERE id=`+req.params.id;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
-    res.send({
-        code: 'S200',
-        msg:""
-      });
+    deleteRole(req,res)
   });
 });
 router.put('/:id', function(req, res, next) {
@@ -119,24 +116,24 @@ router.put('/:id', function(req, res, next) {
   WHERE id=${req.params.id};`;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
-    deleteRole(req)
+    deleteRole(req, res)
   });
-// 删除用户关联的角色
-  function deleteRole(req){
-    var sql= `DELETE FROM user_role WHERE user_id=`+req.params.id;  
-    db.query(sql, function(err, results, fields){  
-      if (err) throw err;
-      if(req.body.role.length>0){
-        insertUser_Role(null,req, res)
-      }else{
-        res.send({
-          code: 'S200',
-          msg:""
-        });
-      }
-    })
-  }
 });
+// 删除用户关联的角色
+function deleteRole(req, res){
+  var sql= `DELETE FROM user_role WHERE user_id=`+req.params.id;  
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
+    if(req.body.role&&req.body.role.length>0){
+      insertUser_Role(null,req, res)
+    }else{
+      res.send({
+        code: 'S200',
+        msg:""
+      });
+    }
+  })
+}
 // 关联用户&角色
 function insertUser_Role(results,req, res){
   console.log(req.body.role)
