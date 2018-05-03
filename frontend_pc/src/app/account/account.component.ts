@@ -17,7 +17,7 @@ export class AccountComponent implements OnInit {
   public modalRef: BsModalRef;
   public params: any = {
     pageNo: 1,
-    pageSize: 2
+    pageSize: 10
   };
   adduser:any = {
     name:null,
@@ -77,6 +77,7 @@ export class AccountComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         this.modalRef.hide();
+        return this.getList(this.params);
       })
   }
   // 编辑
