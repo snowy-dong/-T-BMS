@@ -10,7 +10,6 @@ router.post('/', function(req, res, next) {
     let sqlonlycount = `select count(1) from  role where role_code = "${req.body.code}" or role_name = "${req.body.name}";`;
     db.query(sqlonlycount, function(err, results, fields){  
       if (err) throw err;
-      console.log(results[0]['count(1)'])
       if(results[0]['count(1)'] > 0){
          res.send({
            code: 'P001',

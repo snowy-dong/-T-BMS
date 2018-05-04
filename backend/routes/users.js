@@ -72,7 +72,6 @@ router.get('/list', function(req, res, next) {
   }
 });
 router.get('/:id', function(req, res, next) {
-  console.log(req.params.id)
   // var sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender from user WHERE id=`+req.params.id;  
   var sql=`SELECT 
   user_name as name,
@@ -87,10 +86,15 @@ router.get('/:id', function(req, res, next) {
   WHERE u.id=${req.params.id}
   `
   db.query(sql, function(err, results, fields){  
-    if (err) throw err;
+    console.log(err)
+    if (err) {
+      var err = new Error('Not Found');
+      err.status = 200;
+      next(err);
+      return
+    };
     results[0].id = req.params.id
     results[0].role =JSON.parse("["+results[0].role+"]")
-    console.log(results[0].joinDate)
     res.send({
         code: 'S200',
         data:results

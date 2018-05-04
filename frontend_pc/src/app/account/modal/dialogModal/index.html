@@ -27,7 +27,6 @@
       </div>
       <div class="form-group">
         <label for="joinDate">加入日期：</label>
-        {{params.joinDate}}
         <input type="text" class="form-control" id="joinDate" placeholder="请输入日期"  bsDatepicker  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="params.joinDate" name="joinDate" required>
       </div>
       <div class="form-group">
@@ -45,7 +44,6 @@
               Nothing found
           </ng-template>
         </ngx-select>
-        <!-- <input type="email" class="form-control" id="code" placeholder="请输入CODE" [(ngModel)]="code" name="code"> -->
       </div>
       <button [disabled]="!ngForm.form.valid" type="btn" class="btn btn-default" (click)="saveModal(params)">Submit</button>
     </form>
