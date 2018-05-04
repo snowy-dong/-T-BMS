@@ -46,17 +46,17 @@ router.post('/', function(req, res, next) {
   }
 });
 router.get('/list', function(req, res, next) {
-  let schema = Joi.object().keys({
-    pageNo: Joi.number().required(),
-    pageSize: Joi.number().required(),
-    keyword:Joi.any()
-  })
-  Joi.validate(req.query, schema, function (err, value) {
-    if(err){
-      throwErr(next,err,'S400','data error')
-      return
-    }
-  })
+  // let schema = Joi.object().keys({
+  //   pageNo: Joi.number().required(),
+  //   pageSize: Joi.number().required(),
+  //   keyword:Joi.any()
+  // })
+  // Joi.validate(req.query, schema, function (err, value) {
+  //   if(err){
+  //     throwErr(next,err,'S400','data error')
+  //     return
+  //   }
+  // })
   var sql='';
   var sqlCount='';
   if(req.query.keyword){
