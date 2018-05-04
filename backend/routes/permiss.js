@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../public/javascripts/mysql.js');  
+var db = require('../public/javascripts/mysql.js'); 
+var throwErr = require('../public/javascripts/throwErr') 
+const Joi = require('joi');
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
@@ -9,7 +11,8 @@ router.post('/', function(req, res, next) {
   function count(){
     let sqlonlycount = `select count(1) from  permiss where permiss_code = "${req.body.permiss_code}" or permiss_name = "${req.body.permiss_name}";`;
     db.query(sqlonlycount, function(err, results, fields){  
-      if (err) throw err;
+      throwErr(next,err)
+      if (err) return
       console.log(results[0]['count(1)'])
       if(results[0]['count(1)'] > 0){
          res.send({
@@ -24,7 +27,8 @@ router.post('/', function(req, res, next) {
   function insert (){
   let sql = `insert into permiss values(0,"${req.body.permiss_code}" ,"${req.body.permiss_name}");`;  
     db.query(sql, function(err, results, fields){  
-      if (err) throw err;
+      throwErr(next,err)
+      if (err) return
       res.send({
         code: 'S200',
         msg:""
@@ -51,14 +55,16 @@ router.get('/list', function(req, res, next) {
   count();
   function count(){
     db.query(sqlCount, function(err, results, fields){  
-      if (err) throw err;
+      throwErr(next,err)
+      if (err) return
       data.count = results[0]['count(1)']
       page();
     });
   }
   function page(){
     db.query(sql, function(err, results, fields){  
-      if (err) throw err;
+      throwErr(next,err)
+      if (err) return
       data.list = results
       res.send(data);
     });
@@ -70,7 +76,8 @@ router.delete('/:id', function(req, res, next) {
   FROM role_permiss
   WHERE permiss_id=${req.params.id};`;
   db.query(sqlcount, function(err, results, fields){  
-      if (err) throw err;
+      throwErr(next,err)
+      if (err) return
       console.log(results[0]['count(1)'])
       if(results[0]['count(1)']>0){
           res.send({
@@ -86,7 +93,8 @@ router.put('/:id', function(req, res, next) {
   console.log(req)
   var sql= `UPDATE permiss SET permiss_code="${req.body.params.permiss_code}", permiss_name="${req.body.params.permiss_name}" WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    if (err) throw err;
+    throwErr(next,err)
+      if (err) return
     res.send({
         code: 'S200',
         msg:""
@@ -96,7 +104,8 @@ router.put('/:id', function(req, res, next) {
 function deletePermiss(req,res){
   var sql= `DELETE FROM permiss WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    if (err) throw err;
+    throwErr(next,err)
+      if (err) return
     res.send({
         code: 'S200',
         msg:""
