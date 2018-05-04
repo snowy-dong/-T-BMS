@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../public/javascripts/mysql.js');  
+var throwErr = require('../public/javascripts/throwErr')
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
@@ -23,11 +24,8 @@ router.post('/', function(req, res, next) {
   }
   function insert (){
   let sql = `insert into user values(0,"${req.body.name}",123456,"${req.body.email}","${req.body.cellphone}","${req.body.joinDate}",Null ,"${req.body.gender}");`;  
-  console.log(sql)
     db.query(sql, function(err, results, fields){  
       if (err) throw err;
-      console.log('results')
-      console.log(results)
       if(req.body.role.length>0){
         insertUser_Role(results.insertId, req, res)
       }else{
@@ -86,13 +84,8 @@ router.get('/:id', function(req, res, next) {
   WHERE u.id=${req.params.id}
   `
   db.query(sql, function(err, results, fields){  
-    console.log(err)
-    if (err) {
-      var err = new Error('Not Found');
-      err.status = 200;
-      next(err);
-      return
-    };
+    throwErr(next,err)
+    if (err) return
     results[0].id = req.params.id
     results[0].role =JSON.parse("["+results[0].role+"]")
     res.send({
