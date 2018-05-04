@@ -8,7 +8,7 @@ export class AccountService {
     return this.http.post('/api/users', data);
   }
   getList(params) {
-    return this.http.get('/api/users/list1', { params: params });
+    return this.http.get('/api/users/list', { params: params });
   }
   getDetail(id){
     return this.http.get('/api/users/' + id);
