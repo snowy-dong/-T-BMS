@@ -7,7 +7,7 @@ router.post('/', function(req, res, next) {
   console.log(req.body)
   count();
   function count(){
-    let sqlonlycount = `select count(1) from  user where user_name = "`+ req.body.name +`";`;
+    let sqlonlycount = `select count(1) from  user where user_name = "${req.body.name}";`;
     db.query(sqlonlycount, function(err, results, fields){  
       if (err) throw err;
       console.log(results[0]['count(1)'])
@@ -44,11 +44,11 @@ router.get('/list', function(req, res, next) {
   var sql='';
   var sqlCount='';
   if(req.query.keyword){
-    sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender from user where user_name like "%` + req.query.keyword + `%"  limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`; 
+    sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender from user where user_name like "%${req.query.keyword}%"  limit ${(req.query.pageNo-1)*req.query.pageSize},${req.query.pageSize};`; 
     sqlCount = `select count(1)  from user where user_name like "%` + req.query.keyword + `%";`;  
   
   }else{
-    sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender  from user   limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`;  
+    sql= `select id,user_name,email,cell_phone,join_date,leave_date,gender  from user   limit ${(req.query.pageNo-1)*req.query.pageSize},${req.query.pageSize};`;  
     sqlCount = `select count(1) from user;` 
   }
   let data ={
@@ -99,14 +99,20 @@ router.get('/:id', function(req, res, next) {
 });
 router.delete('/:id', function(req, res, next) {
   console.log(req.params.id)
-  var sql= `DELETE FROM user WHERE id=`+req.params.id;  
+  deleteUser_Role(req)
+  
+  var sql= `DELETE FROM user WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
-    deleteRole(req,res)
+    res.send({
+      code: 'S200',
+      msg:""
+    });
   });
 });
 router.put('/:id', function(req, res, next) {
   console.log(req.params.id)
+  deleteUser_Role(req)
   var sql= `UPDATE user SET  
   user_name="${req.body.name}",
   email = "${req.body.email}",
@@ -114,14 +120,6 @@ router.put('/:id', function(req, res, next) {
   join_date = "${req.body.joinDate}",
   gender = "${req.body.gender}" 
   WHERE id=${req.params.id};`;  
-  db.query(sql, function(err, results, fields){  
-    if (err) throw err;
-    deleteRole(req, res)
-  });
-});
-// 删除用户关联的角色
-function deleteRole(req, res){
-  var sql= `DELETE FROM user_role WHERE user_id=`+req.params.id;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
     if(req.body.role&&req.body.role.length>0){
@@ -132,6 +130,13 @@ function deleteRole(req, res){
         msg:""
       });
     }
+  });
+});
+// 删除用户关联的角色
+function deleteUser_Role(req){
+  var sql= `DELETE FROM user_role WHERE user_id=${req.params.id}`;  
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
   })
 }
 // 关联用户&角色

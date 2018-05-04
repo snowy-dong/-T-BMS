@@ -7,7 +7,7 @@ router.post('/', function(req, res, next) {
   console.log(req.body)
   count();
   function count(){
-    let sqlonlycount = `select count(1) from  role where role_code = "`+ req.body.code +`" or role_name = "`+req.body.name+`";`;
+    let sqlonlycount = `select count(1) from  role where role_code = "${req.body.code}" or role_name = "${req.body.name}";`;
     db.query(sqlonlycount, function(err, results, fields){  
       if (err) throw err;
       console.log(results[0]['count(1)'])
@@ -22,7 +22,7 @@ router.post('/', function(req, res, next) {
     });  
   }
   function insert (){
-  let sql = `insert into role values(0,"`+ req.body.name +`" ,"`+req.body.code+`");`;  
+  let sql = `insert into role values(0,"${req.body.name}" ,"${req.body.code}");`;  
     db.query(sql, function(err, results, fields){  
       if (err) throw err;
       console.log('results')
@@ -44,11 +44,11 @@ router.get('/list', function(req, res, next) {
   var sqlCount='';
   if(req.query.keyword){
     console.log(11111)
-    sql= `select *  from role where role_code like "%` + req.query.keyword + `%" or role_name like "%`+req.query.keyword+`%"  limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`; 
-    sqlCount = `select count(1)  from role where role_code like "%` + req.query.keyword + `%" or role_name like "%`+req.query.keyword+`%";`;  
+    sql= `select *  from role where role_code like "%${req.query.keyword}%" or role_name like "%${req.query.keyword}%"  limit ${(req.query.pageNo-1)*req.query.pageSize},${req.query.pageSize};`; 
+    sqlCount = `select count(1)  from role where role_code like "%${req.query.keyword}%" or role_name like "%${req.query.keyword}%";`;  
   
   }else{
-    sql= !req.query.pageNo?`select *  from role ;`:`select *  from role   limit `+(req.query.pageNo-1)*req.query.pageSize +`,`+req.query.pageSize+`;`;  
+    sql= !req.query.pageNo?`select *  from role ;`:`select *  from role   limit ${(req.query.pageNo-1)*req.query.pageSize},${req.query.pageSize};`;  
     sqlCount = `select count(1) from role;` 
   }
   let data ={
@@ -94,33 +94,25 @@ router.get('/:id', function(req, res, next) {
 });
 router.delete('/:id', function(req, res, next) {
   console.log(req.params.id)
-  var sql= `DELETE FROM role WHERE id=`+req.params.id;  
-  db.query(sql, function(err, results, fields){  
+  let sqlcount=`SELECT count(1)
+  FROM user_role 
+  WHERE role_id=${req.params.id};`;
+  db.query(sqlcount, function(err, results, fields){  
     if (err) throw err;
-    deleteRole(req,res)
-    // res.send({
-    //     code: 'S200',
-    //     msg:""
-    //   });
+    if(results[0]['count(1)']>0){
+        res.send({
+          code: 'R001',
+          msg:"不能删除此角色"
+        });
+    }else{
+      deleteRole_Permiss(req)
+      deleteRole(req,res)
+    }
   });
 });
 router.put('/:id', function(req, res, next) {
-  console.log(req.params.id)
-  console.log(req.body)
-  var sql= `UPDATE role SET role_code="`+req.body.code + `", role_name="` + req.body.name + `" WHERE id=` + req.params.id;  
-  db.query(sql, function(err, results, fields){  
-    if (err) throw err;
-    deleteRole(req,res)
-    // res.send({
-    //     code: 'S200',
-    //     msg:""
-    //   });
-  });
-  
-});
-// 删除角色关联的权限
-function deleteRole(req,res){
-  var sql= `DELETE FROM role_permiss WHERE role_id=`+req.params.id;  
+  deleteRole_Permiss(req)
+  var sql= `UPDATE role SET role_code="${req.body.code}", role_name="${req.body.name}" WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
     if (err) throw err;
     if(req.body.permiss&&req.body.permiss.length>0){
@@ -131,12 +123,30 @@ function deleteRole(req,res){
         msg:""
       });
     }
+  });
+  
+});
+function deleteRole(req,res){
+  var sql= `DELETE FROM role WHERE id=${req.params.id}`;  
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
+    res.send({
+        code: 'S200',
+        msg:""
+      });
+  });
+}
+// 删除角色关联的权限
+function deleteRole_Permiss(req){
+  var sql= `DELETE FROM role_permiss WHERE role_id=${req.params.id}`;  
+  db.query(sql, function(err, results, fields){  
+    if (err) throw err;
   })
 }
 // 关联角色&权限
 function insertRole_Permiss(results,req,res){
   console.log(req.body.permiss)
-  let sql = `insert into role_permiss (role_id,permiss_id) values `;  
+  let sql = `insert into role_permiss (role_id,permiss_id) values`;  
   req.body.permiss.forEach(element => {
     sql+= `(${results | req.params.id}, ${element}),`;  
   

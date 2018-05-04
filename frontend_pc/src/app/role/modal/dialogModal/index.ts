@@ -47,7 +47,7 @@ export class ModalContentComponent implements OnInit {
   }
   getDetail(id: String){
     this.RoleService.getDetail(id)
-    .subscribe(data => {
+    .subscribe((data:any) => {
       this.params = data.data[0]
       console.log(data)
     })

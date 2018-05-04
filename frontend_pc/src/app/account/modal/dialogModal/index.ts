@@ -55,7 +55,7 @@ export class ModalContentComponent implements OnInit {
   // 获取用户详情
   getDetail(id: String){
     this.AccountService.getDetail(id)
-    .subscribe(data => {
+    .subscribe((data:any) => {
       this.params = data.data[0]
       console.log(data)
     })
