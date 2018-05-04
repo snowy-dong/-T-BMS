@@ -57,6 +57,11 @@ export class ModalContentComponent implements OnInit {
     this.AccountService.getDetail(id)
     .subscribe((data:any) => {
       this.params = data.data[0]
+      let role=[];
+      this.params.role.forEach((x,i) => {
+        role.push(x.id)
+      });
+      this.params.role = role;
       console.log(data)
     })
   }

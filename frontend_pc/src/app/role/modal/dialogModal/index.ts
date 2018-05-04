@@ -32,8 +32,8 @@ export class ModalContentComponent implements OnInit {
   // 获取权限
   public getPermiss(): void {
     this.PermissService.getList({})
-      .subscribe(data => {
-        this.permissList = data
+      .subscribe((data:any) => {
+        this.permissList = data.list
         console.log(data)
       })
   }
@@ -49,6 +49,13 @@ export class ModalContentComponent implements OnInit {
     this.RoleService.getDetail(id)
     .subscribe((data:any) => {
       this.params = data.data[0]
+      let permiss=[];
+      this.params.permiss.forEach((x,i) => {
+        permiss.push(x.id)
+      });
+      this.params.permiss = permiss;
+      // this.permissList= this.params.permiss
+      // this.params.permiss =[1,3,6]
       console.log(data)
     })
   }
