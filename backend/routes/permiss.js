@@ -6,13 +6,23 @@ const Joi = require('joi');
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  console.log(req.body)
-  count();
+
+  let schema = Joi.object().keys({
+    permiss_code: Joi.string().required(),
+    permiss_name: Joi.string().required()
+  })
+  Joi.validate(req.body, schema, function (err, value) {
+    if(err){
+        throwErr(next,err,'S400','data error')
+        return
+      }
+    count();
+  });
+
   function count(){
     let sqlonlycount = `select count(1) from  permiss where permiss_code = "${req.body.permiss_code}" or permiss_name = "${req.body.permiss_name}";`;
     db.query(sqlonlycount, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       console.log(results[0]['count(1)'])
       if(results[0]['count(1)'] > 0){
          res.send({
@@ -27,8 +37,7 @@ router.post('/', function(req, res, next) {
   function insert (){
   let sql = `insert into permiss values(0,"${req.body.permiss_code}" ,"${req.body.permiss_name}");`;  
     db.query(sql, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       res.send({
         code: 'S200',
         msg:""
@@ -37,6 +46,17 @@ router.post('/', function(req, res, next) {
   }
 });
 router.get('/list', function(req, res, next) {
+  let schema = Joi.object().keys({
+    pageNo: Joi.number().required(),
+    pageSize: Joi.number().required(),
+    keyword:Joi.any()
+  })
+  Joi.validate(req.query, schema, function (err, value) {
+    if(err){
+      throwErr(next,err,'S400','data error')
+      return
+    }
+  })
   var sql='';
   var sqlCount='';
   if(req.query.keyword){
@@ -55,16 +75,14 @@ router.get('/list', function(req, res, next) {
   count();
   function count(){
     db.query(sqlCount, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       data.count = results[0]['count(1)']
       page();
     });
   }
   function page(){
     db.query(sql, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       data.list = results
       res.send(data);
     });
@@ -76,8 +94,7 @@ router.delete('/:id', function(req, res, next) {
   FROM role_permiss
   WHERE permiss_id=${req.params.id};`;
   db.query(sqlcount, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       console.log(results[0]['count(1)'])
       if(results[0]['count(1)']>0){
           res.send({
@@ -85,7 +102,7 @@ router.delete('/:id', function(req, res, next) {
             msg:"不能删除此权限"
           });
       }else{
-        deletePermiss(req,res)
+        deletePermiss(req,res,next)
     }
   });
 })
@@ -93,19 +110,17 @@ router.put('/:id', function(req, res, next) {
   console.log(req)
   var sql= `UPDATE permiss SET permiss_code="${req.body.params.permiss_code}", permiss_name="${req.body.params.permiss_name}" WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    throwErr(next,err)
-      if (err) return
+    if (err) {throwErr(next,err);return}
     res.send({
         code: 'S200',
         msg:""
       });
   });
 });
-function deletePermiss(req,res){
+function deletePermiss(req,res,next){
   var sql= `DELETE FROM permiss WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
     res.send({
         code: 'S200',
         msg:""

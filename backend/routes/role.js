@@ -9,8 +9,7 @@ router.post('/', function(req, res, next) {
   function count(){
     let sqlonlycount = `select count(1) from  role where role_code = "${req.body.code}" or role_name = "${req.body.name}";`;
     db.query(sqlonlycount, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       if(results[0]['count(1)'] > 0){
          res.send({
            code: 'P001',
@@ -24,12 +23,11 @@ router.post('/', function(req, res, next) {
   function insert (){
   let sql = `insert into role values(0,"${req.body.name}" ,"${req.body.code}");`;  
     db.query(sql, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       console.log('results')
       console.log(results)
       if(req.body.permiss.length>0){
-        insertRole_Permiss(results.insertId,req, res)
+        insertRole_Permiss(results.insertId,req, res,next)
       }else{
         res.send({
           code: 'S200',
@@ -59,16 +57,14 @@ router.get('/list', function(req, res, next) {
   count();
   function count(){
     db.query(sqlCount, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       data.count = results[0]['count(1)']
       page();
     });
   }
   function page(){
     db.query(sql, function(err, results, fields){  
-      throwErr(next,err)
-      if (err) return
+      if (err) {throwErr(next,err);return}
       data.list = results
       res.send(data);
     });
@@ -86,8 +82,7 @@ router.get('/:id', function(req, res, next) {
   WHERE r.id=${req.params.id}
   `
   db.query(sql, function(err, results, fields){  
-    throwErr(next,err)
-      if (err) return
+    if (err) {throwErr(next,err);return}
     results[0].id = req.params.id
     results[0].permiss =JSON.parse("["+results[0].permiss+"]")
     res.send({
@@ -102,25 +97,23 @@ router.delete('/:id', function(req, res, next) {
   FROM user_role 
   WHERE role_id=${req.params.id};`;
   db.query(sqlcount, function(err, results, fields){  
-    throwErr(next,err)
-      if (err) return
+    if (err) {throwErr(next,err);return}
     if(results[0]['count(1)']>0){
         res.send({
           code: 'R001',
           msg:"不能删除此角色"
         });
     }else{
-      deleteRole_Permiss(req)
-      deleteRole(req,res)
+      deleteRole_Permiss(req,next)
+      deleteRole(req,res,next)
     }
   });
 });
 router.put('/:id', function(req, res, next) {
-  deleteRole_Permiss(req)
+  deleteRole_Permiss(req,next)
   var sql= `UPDATE role SET role_code="${req.body.code}", role_name="${req.body.name}" WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    throwErr(next,err)
-      if (err) return
+    if (err) {throwErr(next,err);return}
     if(req.body.permiss&&req.body.permiss.length>0){
       insertRole_Permiss(null,req, res)
     }else{
@@ -132,11 +125,10 @@ router.put('/:id', function(req, res, next) {
   });
   
 });
-function deleteRole(req,res){
+function deleteRole(req,res,next){
   var sql= `DELETE FROM role WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    throwErr(next,err)
-      if (err) return
+    if (err) {throwErr(next,err);return}
     res.send({
         code: 'S200',
         msg:""
@@ -144,15 +136,14 @@ function deleteRole(req,res){
   });
 }
 // 删除角色关联的权限
-function deleteRole_Permiss(req){
+function deleteRole_Permiss(req,next){
   var sql= `DELETE FROM role_permiss WHERE role_id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    throwErr(next,err)
-      if (err) return
+    if (err) {throwErr(next,err);return}
   })
 }
 // 关联角色&权限
-function insertRole_Permiss(results,req,res){
+function insertRole_Permiss(results,req,res, next){
   console.log(req.body.permiss)
   let sql = `insert into role_permiss (role_id,permiss_id) values`;  
   req.body.permiss.forEach(element => {
@@ -162,8 +153,7 @@ function insertRole_Permiss(results,req,res){
   sql = sql.substr(0, sql.length - 1) + ';';
   console.log(sql)
   db.query(sql, function(err, results, fields){  
-    throwErr(next,err)
-      if (err) return
+    if (err) {throwErr(next,err);return}
     console.log(results)
     res.send({
       code: 'S200',
