@@ -16,7 +16,6 @@
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1">选择权限：</label>
-      {{params.permiss}}
       <ngx-select [items]="permissList"  [multiple]='true' [(ngModel)]="params.permiss" name="permiss" optionValueField ="id">
         <ng-template ngx-select-option-selected let-option let-text="text">
             {{option.data.permiss_name}}
