@@ -10,7 +10,7 @@ router.post('/', function(req, res, next) {
   function count(){
     let sqlonlycount = `select count(1) from  user where user_name = "${req.body.name}";`;
     db.query(sqlonlycount, function(err, results, fields){  
-     if (err) {throwErr(next,err);return}
+     if (err) {return throwErr(next,err)}
       console.log(results[0]['count(1)'])
       if(results[0]['count(1)'] > 0){
          res.send({
@@ -25,7 +25,7 @@ router.post('/', function(req, res, next) {
   function insert (){
   let sql = `insert into user values(0,"${req.body.name}",123456,"${req.body.email}","${req.body.cellphone}","${req.body.joinDate}",Null ,"${req.body.gender}");`;  
     db.query(sql, function(err, results, fields){  
-     if (err) {throwErr(next,err);return}
+     if (err) {return throwErr(next,err)}
       if(req.body.role.length>0){
         insertUser_Role(results.insertId, req, res)
       }else{
@@ -56,14 +56,14 @@ router.get('/list', function(req, res, next) {
   count();
   function count(){
     db.query(sqlCount, function(err, results, fields){  
-     if (err) {throwErr(next,err);return}
+     if (err) {return throwErr(next,err)}
       data.count = results[0]['count(1)']
       page();
     });
   }
   function page(){
     db.query(sql, function(err, results, fields){  
-     if (err) {throwErr(next,err);return}
+     if (err) {return throwErr(next,err)}
       data.list = results
       res.send(data);
     });
@@ -84,7 +84,7 @@ router.get('/:id', function(req, res, next) {
   WHERE u.id=${req.params.id}
   `
   db.query(sql, function(err, results, fields){  
-    if (err) {throwErr(next,err);return}
+    if (err) {return throwErr(next,err)}
     results[0].id = req.params.id
     results[0].role =JSON.parse("["+results[0].role+"]")
     res.send({
@@ -99,7 +99,7 @@ router.delete('/:id', function(req, res, next) {
   
   var sql= `DELETE FROM user WHERE id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    if (err) {throwErr(next,err);return}
+    if (err) {return throwErr(next,err)}
     res.send({
       code: 'S200',
       msg:""
@@ -117,7 +117,7 @@ router.put('/:id', function(req, res, next) {
   gender = "${req.body.gender}" 
   WHERE id=${req.params.id};`;  
   db.query(sql, function(err, results, fields){  
-    if (err) {throwErr(next,err);return}
+    if (err) {return throwErr(next,err)}
     if(req.body.role&&req.body.role.length>0){
       insertUser_Role(null,req, res, next)
     }else{
@@ -132,7 +132,7 @@ router.put('/:id', function(req, res, next) {
 function deleteUser_Role(req, next){
   var sql= `DELETE FROM user_role WHERE user_id=${req.params.id}`;  
   db.query(sql, function(err, results, fields){  
-    if (err) {throwErr(next,err);return}
+    if (err) {return throwErr(next,err)}
   })
 }
 // 关联用户&角色
@@ -146,7 +146,7 @@ function insertUser_Role(results,req, res, next){
   sql = sql.substr(0, sql.length - 1) + ';';
   console.log(sql)
   db.query(sql, function(err, results, fields){  
-    if (err) {throwErr(next,err);return}
+    if (err) {return throwErr(next,err)}
     console.log(results)
     res.send({
       code: 'S200',
