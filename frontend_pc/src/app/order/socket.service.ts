@@ -9,14 +9,15 @@ export class ChatService {
     constructor(private socket: Socket) {}
 
     getMessage() {
-        return this.socket
-            .fromEvent<any>("news");
-    }
+      return this.socket
+          .fromEvent<any>("msg")
+          .map(data => data.msg);
+  }
 
-    sendMessage(msg: string) {
-        this.socket
-            .emit("message", msg);
-    }
+  sendMessage(msg: string) {
+      this.socket
+          .emit("msg", msg);
+  }
     close() {
       this.socket.disconnect()
     }

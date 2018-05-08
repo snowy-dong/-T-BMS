@@ -10,19 +10,18 @@ import { ChatService } from './socket.service'
 export class OrderComponent implements OnInit {
   msg: string;
 
-  constructor(private chatService: ChatService) { }
+    constructor(private chatService : ChatService) {}
 
-  ngOnInit() {
-    console.log(this.chatService.getMessage())
-    this.chatService
-    .getMessage()
-    .subscribe(data => {
-      this.msg = data.data;
-      console.log(this.msg)
+    ngOnInit() {
+      this.chatService
+          .getMessage()
+          .subscribe(msg => {
+            this.msg = "1st "+msg;
+          });
+    }
 
-    });
-  }
-  sendMsg(){
-    this.chatService.sendMessage(this.msg);
- }
+    sendMsg(msg){
+       this.chatService.sendMessage(msg);
+    }
+
 }
