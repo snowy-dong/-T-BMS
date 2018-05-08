@@ -1,5 +1,5 @@
 
-exports.scoket = function (server) {
+exports.getScoket = function (server) {
   const _io = require('socket.io')(server)
   _io.set('transports', ['websocket', 'polling', 'xhr-polling', 'jsonp-polling', 'htmlfile', 'flashsocket']);
   _io.set('origins', '*:*');

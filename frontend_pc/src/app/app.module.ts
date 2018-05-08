@@ -21,7 +21,7 @@ import { ConfirmWindowComponent } from './common/modal/confirm-modal'
 import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: { timeout: 1000} };
 
 @NgModule({
   declarations: [
