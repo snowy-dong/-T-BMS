@@ -21,8 +21,27 @@ app.set('view engine', 'jade');
 app.use('^/api', proxy({ target: 'http://localhost:3000', changeOrigin: true, pathRewrite: {"^/api": ""} }));
 // 拦截器
 app.all('/*', function (req, res, next) {
+  if(req.url.indexOf('/socket.io/') === 0 ){
+    const origin = req.headers.origin
+    if (typeof origin === 'undefined') {
+      res.header('Access-Control-Allow-Origin', '*')
+    } else if (
+      (origin.indexOf('http://localhost')) === 0 ||
+      (origin.indexOf('http://172.16.') === 0) ||
+      (origin.indexOf('http://192.168.1.') === 0) ||
+      (origin.indexOf('http://admin.anguer.com') === 0) ||
+      (origin.indexOf('http://chat.anguer.com') === 0)
+    ) {
+      res.header('Access-Control-Allow-Origin', origin)
+      res.header('Access-Control-Allow-Credentials', 'true')
+    } else {
+      res.header('Access-Control-Allow-Origin', 'http://localhost')
+    }
+    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, X-Access-Token')
+    next()
+  }
   // console.log(req.headers.authorization)
-  // next();
   console.log(req.url);
   console.log(req.headers);
 if (req.url == '/login') {
@@ -62,7 +81,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(err.status || 200);
   res.send({
     code: err.code || 'S409',
     data: err.message || '程序异常'

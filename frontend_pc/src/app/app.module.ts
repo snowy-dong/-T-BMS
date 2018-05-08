@@ -20,6 +20,9 @@ import { ConfirmWindowComponent } from './common/modal/confirm-modal'
 
 import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -36,7 +39,8 @@ import { isPlatformBrowser } from '@angular/common';
     LoginModule,
     TypeaheadModule,
     ModalModule,
-    HttpClientModule
+    HttpClientModule,
+    SocketIoModule.forRoot(config)
   ],
   entryComponents:[AppComponent, ConfirmWindowComponent],
   providers: [AuthService, AuthGuard, httpInterceptorProviders, SessionStorage,{provide: LocationStrategy, useClass: HashLocationStrategy}],
