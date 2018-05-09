@@ -14,14 +14,15 @@ export class OrderComponent implements OnInit {
 
     ngOnInit() {
       this.chatService
-          .getMessage("msg")
+          .getMessage("order")
           .subscribe(msg => {
+            console.log(msg)
             this.msg = "1st "+msg;
           });
     }
 
     sendMsg(msg){
-       this.chatService.sendMessage("msg",msg);
+       this.chatService.sendMessage("order",msg);
     }
 
 }

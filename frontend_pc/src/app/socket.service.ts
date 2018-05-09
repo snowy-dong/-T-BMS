@@ -10,13 +10,13 @@ export class ChatService {
 
     getMessage(key: string) {
       return this.socket
-          .fromEvent<any>("msg")
+          .fromEvent<any>(key)
           .map(data => data.msg);
   }
 
   sendMessage(key: string, msg: string) {
       this.socket
-          .emit("msg", msg);
+          .emit(key, msg);
   }
     close() {
       this.socket.disconnect()

@@ -1,3 +1,5 @@
+var orderModel = require('../../model/order');
+var userModel = require('../../model/user');
 exports.getScoket = function (server) {
   const _io = require('socket.io')(server)
   _io.set('transports', ['websocket', 'polling', 'xhr-polling', 'jsonp-polling', 'htmlfile', 'flashsocket']);
@@ -7,11 +9,6 @@ exports.getScoket = function (server) {
   // socket.emit("msg", "socket:" + socket.id);
   // //发送给所有连接的客户端
   // _io.emit("msg", "io:" + socket.id);
-
-  _io.on('connection', function (socket) {
-    _io.emit('msg', { msg: 'Welcome bro!' });
-    socket.on('msg',function(msg){
-    	_io.emit('msg', { msg: "you sent : "+msg });
-    })
-  })
+  orderModel.init(_io);
+  userModel.init(_io);
 };
