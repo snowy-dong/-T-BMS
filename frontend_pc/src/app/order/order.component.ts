@@ -1,19 +1,19 @@
 import { Component, OnInit, NgModule } from '@angular/core';
-import { ChatService } from '../socket.service'
+import { ScoketService } from '../common/service/socket.service'
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.less'],
-  providers: [ChatService]
+  providers: [ScoketService]
 })
 export class OrderComponent implements OnInit {
   msg: string;
 
-    constructor(private chatService : ChatService) {}
+    constructor(private scoketService : ScoketService) {}
 
     ngOnInit() {
-      this.chatService
+      this.scoketService
           .getMessage("order")
           .subscribe(msg => {
             console.log(msg)
@@ -22,7 +22,7 @@ export class OrderComponent implements OnInit {
     }
 
     sendMsg(msg){
-       this.chatService.sendMessage("order",msg);
+       this.scoketService.sendMessage("order",msg);
     }
 
 }

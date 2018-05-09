@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import { Socket } from 'ng-socket-io';
 
 @Injectable()
-export class ChatService {
+export class ScoketService {
 
     constructor(private socket: Socket) {}
 

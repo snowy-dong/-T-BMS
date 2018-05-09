@@ -4,7 +4,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { LoginService } from './login.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { AuthService} from '../auth.service'
+import { AuthService} from '../common/service/auth.service'
 
 @Component({
   selector: 'app-login',

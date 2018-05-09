@@ -12,9 +12,9 @@ import { AppComponent } from './app.component';
 
 import { HomeComponent } from './home/home.component';
 
-import { httpInterceptorProviders } from './http-interceptors'
-import { AuthService } from './auth.service'
-import { AuthGuard } from './auth-guard.service';
+import { httpInterceptorProviders } from './common/http-interceptors'
+import { AuthService } from './common/service/auth.service'
+import { AuthGuard } from './common/service/auth-guard.service';
 import { SessionStorage } from './common/session.storage';
 import { ConfirmWindowComponent } from './common/modal/confirm-modal'
 

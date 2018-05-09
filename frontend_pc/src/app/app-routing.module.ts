@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import {RouterModule,Routes} from '@angular/router'
-import { AuthGuard } from './auth-guard.service';
+import { AuthGuard } from './common/service/auth-guard.service';
 const routes: Routes = [
   { path: '', redirectTo: '/Account', pathMatch: 'full' },
   { path: 'Account',loadChildren: 'app/account/account.module#AccountModule',canActivate: [AuthGuard]},

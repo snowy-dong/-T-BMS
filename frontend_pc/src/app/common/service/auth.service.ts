@@ -1,6 +1,6 @@
 import { Injectable,EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SessionStorage } from './common/session.storage';
+import { SessionStorage } from '../session.storage';
 /** Mock client-side authentication/authorization service */
 @Injectable()
 export class AuthService {
