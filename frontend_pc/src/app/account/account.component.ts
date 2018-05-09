@@ -22,21 +22,14 @@ export class AccountComponent implements OnInit {
     pageSize: 10
   };
 
-  name="account name"
-  initialCount:number =5
-  changeMsg: string;
-  username: string = '';
   constructor(
     private AccountService: AccountService,
     private modalService: BsModalService,
     private RoleService:RoleService,
     private datePipe: DatePipe
   ) {
-    this.items = ['111', '222']
   }
-  countChange(event: number){
-    this.changeMsg = `子组件change事件已触发，当前值是: ${event}`;
-  }
+
   public ngOnInit(): void {
     this.getList(this.params);
   }

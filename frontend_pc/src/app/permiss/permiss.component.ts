@@ -1,10 +1,5 @@
 import { ChangeDetectorRef, Component, TemplateRef, OnInit, NgModule, Directive, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-// import { switchMap } from 'rxjs/operators';
-// import { Subscription } from 'rxjs/Subscription';
-// import { Observable } from 'rxjs/Observable';
-// import 'rxjs/add/observable/combineLatest';
-
 import { PermissService } from './permiss.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ModalContentComponent } from './modal/dialogModal/index'
