@@ -1,5 +1,5 @@
 import { Component, OnInit, NgModule } from '@angular/core';
-import { ChatService } from './socket.service'
+import { ChatService } from '../socket.service'
 
 @Component({
   selector: 'app-order',
@@ -14,14 +14,14 @@ export class OrderComponent implements OnInit {
 
     ngOnInit() {
       this.chatService
-          .getMessage()
+          .getMessage("msg")
           .subscribe(msg => {
             this.msg = "1st "+msg;
           });
     }
 
     sendMsg(msg){
-       this.chatService.sendMessage(msg);
+       this.chatService.sendMessage("msg",msg);
     }
 
 }

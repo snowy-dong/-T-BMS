@@ -8,13 +8,13 @@ export class ChatService {
 
     constructor(private socket: Socket) {}
 
-    getMessage() {
+    getMessage(key: string) {
       return this.socket
           .fromEvent<any>("msg")
           .map(data => data.msg);
   }
 
-  sendMessage(msg: string) {
+  sendMessage(key: string, msg: string) {
       this.socket
           .emit("msg", msg);
   }

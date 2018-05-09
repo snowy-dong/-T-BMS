@@ -1,4 +1,3 @@
-
 exports.getScoket = function (server) {
   const _io = require('socket.io')(server)
   _io.set('transports', ['websocket', 'polling', 'xhr-polling', 'jsonp-polling', 'htmlfile', 'flashsocket']);
@@ -14,6 +13,5 @@ exports.getScoket = function (server) {
     socket.on('msg',function(msg){
     	_io.emit('msg', { msg: "you sent : "+msg });
     })
-    
   })
 };
