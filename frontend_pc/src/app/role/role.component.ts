@@ -12,7 +12,7 @@ import { ConfirmWindowComponent } from '../common/modal/confirm-modal'
 export class RoleComponent implements OnInit {
   permissList: Object;
 
-  public data: Object;
+  public data: any;
   public bsModalRef: BsModalRef;
   public keywords:String = ''
   public params: any = {

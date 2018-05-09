@@ -39,8 +39,8 @@ export class ModalContentComponent implements OnInit {
   // 获取角色
   public getRole(): void {
     this.RoleService.getList({})
-      .subscribe(data => {
-        this.roleList = data
+      .subscribe((data:any) => {
+        this.roleList = data.list
         console.log(data)
       })
   }

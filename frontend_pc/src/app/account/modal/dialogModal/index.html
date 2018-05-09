@@ -31,7 +31,7 @@
       </div>
       <div class="form-group">
         <label for="code">选择权限：</label>
-        <ngx-select [items]="roleList && roleList.list"  [multiple]='true' [(ngModel)]="params.role" name="code" optionValueField ="id" >
+        <ngx-select [items]="roleList"  [multiple]='true' [(ngModel)]="params.role" name="code" optionValueField ="id" >
           <ng-template ngx-select-option-selected let-option let-text="text">
             {{option.data.role_name}}
           </ng-template>
