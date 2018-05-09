@@ -8,9 +8,9 @@ import {AuthService} from './common/service/auth.service'
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  public isLogin:Boolean
+  isLogin:Boolean
   constructor(private router:Router, private auth: AuthService){}
-  public ngOnInit(): void {
+  ngOnInit(): void {
     // 接收发射过来的数据
     this.auth.eventEmit.subscribe((value: any) => {
       if(value == "loginOut") {

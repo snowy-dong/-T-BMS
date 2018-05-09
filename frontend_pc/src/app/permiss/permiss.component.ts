@@ -13,13 +13,13 @@ import { ConfirmWindowComponent } from '../common/modal/confirm-modal'
 })
 
 export class PermissComponent implements OnInit {
-  public name: any;
-  public id: any;
-  public code: any;
-  public data: Object;
-  public bsModalRef: BsModalRef;
-  public keywords:String = ''
-  public params: any = {
+  name: any;
+  id: any;
+  code: any;
+  data: Object;
+  bsModalRef: BsModalRef;
+  keywords:String = ''
+  params: any = {
     pageNo: 1,
     pageSize: 10
   };
@@ -39,12 +39,12 @@ export class PermissComponent implements OnInit {
   // }
 
   // 初始化
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.route.params.subscribe((params) => this.username = params.username);
     this.getList(this.params);
   }
 
-  public openModal() {
+  openModal() {
     this.bsModalRef = this.modalService.show(ModalContentComponent,{});
     this.bsModalRef.content.onClose = (myData) => {
       if(myData){
@@ -53,7 +53,7 @@ export class PermissComponent implements OnInit {
       }
     };
   }
-  public openComfirmModal(id:String){
+  openComfirmModal(id:String){
     this.bsModalRef = this.modalService.show(ConfirmWindowComponent,{});
     this.bsModalRef.content.onClose = (myData) => {
       if(myData){
@@ -63,30 +63,30 @@ export class PermissComponent implements OnInit {
     }
   }
   // 跳转
-  public goRouter(){
+  goRouter(){
     setTimeout(() => {
       this.router.navigate(['/settings']);
     }, 5000)
   }
   // 获取列表
-  public getList(params: Object): void {
+  getList(params: Object): void {
     this.PermissService.getList(params)
       .subscribe(data => {
         this.data = data
       })
   }
   // 搜索
-  public search(name: String): void {
+  search(name: String): void {
     this.params.keyword = name;
     this.getList(this.params)
   }
   // 展示编辑
-  public showEdit( item: Object):void{
+  showEdit( item: Object):void{
     this.openModal();
     this.bsModalRef.content.item = item;
   }
   // 确认删除
-  public delete(id: String): void {
+  delete(id: String): void {
    this.openComfirmModal(id)
   }
   // 删除
@@ -97,7 +97,7 @@ export class PermissComponent implements OnInit {
       })
   }
   // 切换页码
-  public pageChanged(event: any): void {
+  pageChanged(event: any): void {
     this.params.pageNo = event.page;
     this.getList(this.params);
   }

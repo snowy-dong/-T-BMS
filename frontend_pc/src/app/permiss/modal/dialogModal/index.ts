@@ -7,18 +7,21 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   providers: [PermissService]
 })
 export class ModalContentComponent implements OnInit {
-  public item={
+  item={
     permiss_name:'',
     permiss_code:''
   };
-  public onClose: any;
-  constructor(public bsModalRef: BsModalRef, private PermissService: PermissService) {}
+  onClose: any;
+  constructor(
+    private bsModalRef: BsModalRef,
+     private PermissService: PermissService
+    ) {}
 
   ngOnInit() {
     console.log('ngOnInit')
   }
   // 保存
-  public saveModal(item){
+  saveModal(item){
     if(item.id){
       this.edit(item.id,item)
     }else{
@@ -26,7 +29,7 @@ export class ModalContentComponent implements OnInit {
     }
   }
   // 编辑
-  public edit(id: String, obj: Object): void {
+  edit(id: String, obj: Object): void {
     this.PermissService.edit(id, obj)
       .subscribe(data => {
         console.log(data)
@@ -34,7 +37,7 @@ export class ModalContentComponent implements OnInit {
       })
   }
   // 添加权限
-  public add(obj: Object): void {
+  add(obj: Object): void {
     this.PermissService.add(obj)
       .subscribe(data => {
         console.log(data)

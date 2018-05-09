@@ -10,14 +10,14 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 export class ModalContentComponent implements OnInit {
   id:any;
   permissList: any;
-  public params={
+  params={
     name:'',
     code:'',
     permiss:[]
   };
-  public onClose: any;
+  onClose: any;
   constructor(
-    public bsModalRef: BsModalRef,
+    private bsModalRef: BsModalRef,
     private RoleService: RoleService,
     private PermissService:PermissService
     ) {}
@@ -30,7 +30,7 @@ export class ModalContentComponent implements OnInit {
     }
   }
   // 获取权限
-  public getPermiss(): void {
+  getPermiss(): void {
     this.PermissService.getList({})
       .subscribe((data:any) => {
         this.permissList = data.list
@@ -38,7 +38,7 @@ export class ModalContentComponent implements OnInit {
       })
   }
   // 保存
-  public saveModal(item){
+  saveModal(item){
     if(item.id){
       this.edit(item.id,item)
     }else{
@@ -60,7 +60,7 @@ export class ModalContentComponent implements OnInit {
     })
   }
   // 编辑
-  public edit(id: String, obj: Object): void {
+  edit(id: String, obj: Object): void {
     this.RoleService.edit(id, obj)
       .subscribe(data => {
         console.log(data)
@@ -68,7 +68,7 @@ export class ModalContentComponent implements OnInit {
       })
   }
   // // 添加角色
-  // public addRole(obj: Object): void {
+  // addRole(obj: Object): void {
   //   this.RoleService.add(obj)
   //     .subscribe(data => {
   //       console.log(data)
@@ -76,7 +76,7 @@ export class ModalContentComponent implements OnInit {
   //     })
   // }
   // 添加权限
-  public add(obj: Object): void {
+  add(obj: Object): void {
     this.RoleService.add(obj)
       .subscribe(data => {
         console.log(data)

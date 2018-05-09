@@ -12,7 +12,7 @@ export class ModalContentComponent implements OnInit {
   roleList: Object;
   id:any;
   permissList: any;
-  public params:any = {
+   params:any = {
     name:null,
     email:null,
     cellphone:null,
@@ -21,9 +21,9 @@ export class ModalContentComponent implements OnInit {
     role:[]
 
   }
-  public onClose: any;
+   onClose: any;
   constructor(
-    public bsModalRef: BsModalRef,
+    private bsModalRef: BsModalRef,
     private AccountService: AccountService,
     private RoleService:RoleService,
     private datePipe:DatePipe
@@ -37,7 +37,7 @@ export class ModalContentComponent implements OnInit {
     }
   }
   // 获取角色
-  public getRole(): void {
+   getRole(): void {
     this.RoleService.getList({})
       .subscribe((data:any) => {
         this.roleList = data.list
@@ -45,7 +45,7 @@ export class ModalContentComponent implements OnInit {
       })
   }
   // 保存
-  public saveModal(item){
+   saveModal(item){
     if(item.id){
       this.edit(item.id,item)
     }else{
@@ -66,7 +66,7 @@ export class ModalContentComponent implements OnInit {
     })
   }
   // 编辑
-  public edit(id: String, item: any): void {
+   edit(id: String, item: any): void {
     item.joinDate = this.datePipe.transform(item.joinDate, 'yyyy-MM-dd');
     this.AccountService.edit(id, item)
       .subscribe(data => {
@@ -75,7 +75,7 @@ export class ModalContentComponent implements OnInit {
       })
   }
   // 添加用户
-  public add(item:any): void {
+   add(item:any): void {
     item.joinDate = this.datePipe.transform(item.joinDate, 'yyyy-MM-dd');
     this.AccountService.add(item)
       .subscribe(data => {

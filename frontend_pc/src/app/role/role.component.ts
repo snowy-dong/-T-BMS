@@ -11,11 +11,10 @@ import { ConfirmWindowComponent } from '../common/modal/confirm-modal'
 })
 export class RoleComponent implements OnInit {
   permissList: Object;
-
-  public data: any;
-  public bsModalRef: BsModalRef;
-  public keywords:String = ''
-  public params: any = {
+  data: any;
+  bsModalRef: BsModalRef;
+  keywords:String = ''
+  params: any = {
     pageNo: 1,
     pageSize: 10
   };
@@ -25,11 +24,11 @@ export class RoleComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.getList(this.params);
   }
   // 弹窗
-  public openModal(id:any) {
+  openModal(id:any) {
     const initialState = {
       id: id
     };
@@ -41,7 +40,7 @@ export class RoleComponent implements OnInit {
       }
     };
   }
-  public openComfirmModal(id:String){
+  openComfirmModal(id:String){
     this.bsModalRef = this.modalService.show(ConfirmWindowComponent,{});
     this.bsModalRef.content.onClose = (myData) => {
       if(myData){
@@ -51,23 +50,23 @@ export class RoleComponent implements OnInit {
     }
   }
   // 获取列表
-  public getList(params: Object): void {
+  getList(params: Object): void {
     this.RoleService.getList(params)
       .subscribe(data => {
         this.data = data
       })
   }
   // 搜索
-  public search(name: String): void {
+  search(name: String): void {
     this.params.keyword = name;
     this.getList(this.params)
   }
   // 编辑
-  public edit(id: String, obj: Object): void {
+  edit(id: String, obj: Object): void {
     this.openModal(id);
   }
   // 确认删除
-  public delete(id: String): void {
+  delete(id: String): void {
     this.openComfirmModal(id)
   }
   // 删除
@@ -78,7 +77,7 @@ export class RoleComponent implements OnInit {
       })
   }
   // 切换页码
-  public pageChanged(event: any): void {
+  pageChanged(event: any): void {
     this.params.pageNo = event.page;
     this.getList(this.params);
   }

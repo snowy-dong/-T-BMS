@@ -1,4 +1,4 @@
-import { Component, TemplateRef, OnInit, NgModule, Directive   } from '@angular/core';
+import { Component, TemplateRef, OnInit,OnDestroy, NgModule, Directive   } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AccountService } from './account.service'
 import { RoleService } from '../role/role.service'
@@ -11,13 +11,13 @@ import { ConfirmWindowComponent } from '../common/modal/confirm-modal'
   styleUrls: ['./account.component.less'],
   providers: [AccountService, RoleService, DatePipe]
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent implements OnInit, OnDestroy {
   bsModalRef: BsModalRef;
   items: string[];
-  public keywords:String = ''
-  public data: Object;
-  public modalRef: BsModalRef;
-  public params: any = {
+  keywords:String = ''
+  data: Object;
+  modalRef: BsModalRef;
+  params: any = {
     pageNo: 1,
     pageSize: 10
   };
@@ -30,11 +30,11 @@ export class AccountComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.getList(this.params);
   }
   // 弹窗
-  public openModal(id:any) {
+  openModal(id:any) {
     const initialState = {
       id: id
     };
@@ -46,7 +46,7 @@ export class AccountComponent implements OnInit {
       }
     };
   }
-  public openComfirmModal(id:String){
+  openComfirmModal(id:String){
     this.bsModalRef = this.modalService.show(ConfirmWindowComponent,{});
     this.bsModalRef.content.onClose = (myData) => {
       if(myData){
@@ -57,24 +57,24 @@ export class AccountComponent implements OnInit {
   }
 
   // 获取列表
-  public getList(params: Object): void {
+  getList(params: Object): void {
     this.AccountService.getList(params)
       .subscribe(data => {
         this.data = data
       })
   }
   // 搜索
-  public search(name: String): void {
+  search(name: String): void {
     this.params.keyword = name;
     this.getList(this.params)
   }
 
   // 编辑
-  public edit(id: String, obj: Object): void {
+  edit(id: String, obj: Object): void {
     this.openModal(id);
   }
    // 确认删除
-   public delete(id: String): void {
+   delete(id: String): void {
     this.openComfirmModal(id)
   }
 
@@ -86,9 +86,12 @@ export class AccountComponent implements OnInit {
       })
   }
   // 切换页码
-  public pageChanged(event: any): void {
+  pageChanged(event: any): void {
     this.params.pageNo = event.page;
     this.getList(this.params);
+  }
+  ngOnDestroy() {
+    console.log('accountngOnDestroy')
   }
 
 }
