@@ -66,6 +66,7 @@ export class ActiveComponent implements OnInit {
     const event: UploadInput = {
       type: 'uploadAll',
       url: '/api/upload',
+      headers: { 'Authorization': this.auth.getAuthorizationToken() },
       method: 'POST',
       data: { foo: 'bar' }
     };
@@ -85,5 +86,11 @@ export class ActiveComponent implements OnInit {
     this.uploadInput.emit({ type: 'removeAll' });
   }
 
+  download(){
+    this.activeService.download()
+    .subscribe(data=>{
+      console.log(data)
+    })
+  }
 
 }

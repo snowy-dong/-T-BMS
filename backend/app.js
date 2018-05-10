@@ -12,6 +12,7 @@ var users = require('./routes/users');
 var permiss = require('./routes/permiss');
 var role = require('./routes/role');
 var upload = require('./routes/upload')
+var download = require('./routes/download')
 var tokenManager = require('./public/javascripts/token_manager')
 var cpUpload= require('./public/javascripts/multerUtil')
 
@@ -20,6 +21,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 app.use('^/api', proxy({ target: 'http://localhost:3000', changeOrigin: true, pathRewrite: {"^/api": ""} }));
 // 拦截器
 app.all('/*', function (req, res, next) {
@@ -47,6 +49,7 @@ app.use('/users', users);
 app.use('/permiss', permiss);
 app.use('/role', role);
 app.use('/upload',cpUpload, upload)
+app.use('/download',download)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
