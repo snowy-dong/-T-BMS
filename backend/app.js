@@ -11,7 +11,9 @@ var auth = require('./routes/auth');
 var users = require('./routes/users');
 var permiss = require('./routes/permiss');
 var role = require('./routes/role');
+var upload = require('./routes/upload')
 var tokenManager = require('./public/javascripts/token_manager')
+var cpUpload= require('./public/javascripts/multerUtil')
 
 var app = express();
 
@@ -44,6 +46,7 @@ app.use('/login',auth)
 app.use('/users', users);
 app.use('/permiss', permiss);
 app.use('/role', role);
+app.use('/upload',cpUpload, upload)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
