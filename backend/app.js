@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var proxy = require('http-proxy-middleware');
+var url = require("url");
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
@@ -25,12 +26,15 @@ app.set('view engine', 'jade');
 app.use('^/api', proxy({ target: 'http://localhost:3000', changeOrigin: true, pathRewrite: {"^/api": ""} }));
 // 拦截器
 app.all('/*', function (req, res, next) {
-  // console.log(req.headers.authorization)
   console.log(req.url);
   console.log(req.headers);
 if (req.url == '/login') {
     next();
 } else {
+  var query = url.parse(req.url, true).query;
+  if(query && query.Authorization){
+    req.headers.authorization = query.Authorization
+  }
   req.headers &&  tokenManager.verifyToken(req, res, next)
 }
 });

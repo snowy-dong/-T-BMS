@@ -16,6 +16,7 @@ export class ActiveComponent implements OnInit {
   humanizeBytes: Function;
   dragOver: boolean;
   options: UploaderOptions;
+  authorization:string
 
   constructor(
     private activeService:ActiveService,
@@ -26,6 +27,7 @@ export class ActiveComponent implements OnInit {
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
+    this.authorization = this.auth.getAuthorizationToken()
   }
   ngOnInit(){
 
@@ -35,7 +37,7 @@ export class ActiveComponent implements OnInit {
       const event: UploadInput = {
         type: 'uploadAll',
         url: '/api/upload',
-        headers: { 'Authorization': this.auth.getAuthorizationToken() },
+        headers: { 'Authorization': this.authorization },
         method: 'POST',
         data: { foo: 'bar' }
       };
@@ -66,7 +68,7 @@ export class ActiveComponent implements OnInit {
     const event: UploadInput = {
       type: 'uploadAll',
       url: '/api/upload',
-      headers: { 'Authorization': this.auth.getAuthorizationToken() },
+      headers: { 'Authorization': this.authorization },
       method: 'POST',
       data: { foo: 'bar' }
     };
