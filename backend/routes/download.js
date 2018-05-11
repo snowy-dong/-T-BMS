@@ -6,9 +6,9 @@ var db = require('../public/javascripts/mysql');
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-  var Filepath= path.join(__dirname, '../uploads')
-  var fileName = "CSS参考手册.chm"
-  fs.readFile(Filepath + '/' + fileName,  function (err, data) {
+  var filePath= path.join(__dirname, '../uploads')
+  var fileName = "text.txt"
+  fs.readFile(filePath + '/' + fileName,  function (err, data) {
     if (err) {
       console.log(err)
     }
