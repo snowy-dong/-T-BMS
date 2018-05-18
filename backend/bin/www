@@ -8,7 +8,7 @@ var app = require('../app');
 var debug = require('debug')('node-3:server');
 var http = require('http');
 var io = require('../public/javascripts/socket');
-
+const cluster = require('cluster');
 /**
  * Get port from environment and store in Express.
  */
@@ -25,11 +25,65 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+if (cluster.isMaster) {
+    console.log(`主进程 ${process.pid} 正在运行`);
+    let numReqs = 0;
+    // setInterval(() => {
+    //   console.log(`numReqs = ${numReqs}`);
+    // }, 1000);
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-io.getScoket(server)
+    function messageHandler(msg) {
+      if (msg.cmd && msg.cmd === 'notifyRequest') {
+        numReqs += 1;
+      }
+    }
+  
+    const numCPUs = require('os').cpus().length;
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
+  
+    for (const id in cluster.workers) {
+      cluster.workers[id].on('message', messageHandler);
+    }
+    
+    cluster.on('exit',(worker)=>{
+      console.log(`worker${worker.id} exit.`)
+    });
+    cluster.on('fork',(worker)=>{
+        console.log(`fork：worker${worker.id}`)
+    });
+
+    cluster.on('disconnect',(worker)=>{
+        console.log(`worker${worker.id} is disconnected.`)
+    });
+    cluster.on('listening',(worker,addr)=>{
+        console.log(`worker${worker.id} listening on ${addr.address}:${addr.port}`)
+    });
+    cluster.on('online',(worker)=>{
+        console.log(`worker${worker.id} is online now`)
+    });
+
+    cluster.on('message',(worker,msg)=>{
+        console.log(`got the worker${worker.id}'s msg：${msg}`);
+    });
+
+    Object.keys(cluster.workers).forEach((id)=>{
+        cluster.workers[id].send(`hello worker${id}`);
+    })
+
+  } else {
+    process.on('message',(msg)=>{
+      console.log('worker'+cluster.worker.id+' got the master msg：'+msg);
+    });
+    process.send('hello master, I am worker'+cluster.worker.id);
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+    io.getScoket(server)
+    console.log(`工作进程 ${process.pid} 已启动`);
+  }
+
 
 /**
  * Normalize a port into a number, string, or false.
