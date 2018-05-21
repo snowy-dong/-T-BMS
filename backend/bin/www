@@ -4,11 +4,13 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('node-3:server');
-var http = require('http');
-var io = require('../public/javascripts/socket');
-const cluster = require('cluster');
+var http = require('http'),
+    cluster = require('cluster'),
+    app = require('../app'),
+    io = require('../public/javascripts/socket'),
+    debug = require('debug')('node-3:server');
+GLOBAL.http = http
+GLOBAL.cluster = cluster
 /**
  * Get port from environment and store in Express.
  */
@@ -26,62 +28,78 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 if (cluster.isMaster) {
+  
     console.log(`主进程 ${process.pid} 正在运行`);
-    let numReqs = 0;
-    // setInterval(() => {
-    //   console.log(`numReqs = ${numReqs}`);
-    // }, 1000);
-
-    function messageHandler(msg) {
-      if (msg.cmd && msg.cmd === 'notifyRequest') {
-        numReqs += 1;
-      }
-    }
-  
     const numCPUs = require('os').cpus().length;
+
     for (let i = 0; i < numCPUs; i++) {
-      cluster.fork();
+      // 创建worker进程
+      var wk = cluster.fork();
+      wk.send(`[master]   hi worker ${wk.id}`);
     }
-  
-    for (const id in cluster.workers) {
-      cluster.workers[id].on('message', messageHandler);
-    }
-    
-    cluster.on('exit',(worker)=>{
-      console.log(`worker${worker.id} exit.`)
-    });
+
+    // 监听创建worker进程事件
     cluster.on('fork',(worker)=>{
-        console.log(`fork：worker${worker.id}`)
+      console.log(`[master]   fork: worker ${worker.id}`);
     });
 
+    // 监听worker创建成功事件
+      cluster.on('online',(worker)=>{
+        console.log(`[master]   online: worker ${worker.id}`);
+    });
+    // 监听worker断线事件
     cluster.on('disconnect',(worker)=>{
-        console.log(`worker${worker.id} is disconnected.`)
+      console.log(`[master]   disconnect: worker ${worker.id}`);
     });
-    cluster.on('listening',(worker,addr)=>{
-        console.log(`worker${worker.id} listening on ${addr.address}:${addr.port}`)
+    // 监听worker向master状态事件
+    cluster.on('listening',(worker,address)=>{
+      console.log(`[master]   listening: worker${worker.id},pid: ${worker.process.pid}, Address: ${address.address }: ${address.port }`);
     });
-    cluster.on('online',(worker)=>{
-        console.log(`worker${worker.id} is online now`)
-    });
-
+    // 消息
     cluster.on('message',(worker,msg)=>{
-        console.log(`got the worker${worker.id}'s msg：${msg}`);
+      console.log(`[master]   got the worker${worker.id}'s msg：${msg}`);
     });
+    // 监听worker退出事件
+    cluster.on('exit',(worker)=>{
+      console.log(`[master]   exit worker ${worker.id}  died`);
+    });
+  
+   
+    function eachWorker(callback) {
+      for (var id in cluster.workers) {
+          callback(cluster.workers[id]);
+      }
+  }
 
+    setTimeout(function () {
+        eachWorker(function (worker) {
+            worker.send(`[master]   send message to worker ${worker.id}`);
+        });
+    }, 3000);
+
+ 
     Object.keys(cluster.workers).forEach((id)=>{
         cluster.workers[id].send(`hello worker${id}`);
     })
 
-  } else {
-    process.on('message',(msg)=>{
-      console.log('worker'+cluster.worker.id+' got the master msg：'+msg);
-    });
-    process.send('hello master, I am worker'+cluster.worker.id);
+  } else  {
+    
+    console.log(`[worker]  start worker ...${cluster.worker.id}`);
+    process.on('message', function(msg) {
+      console.log(`[worker]   ${cluster.worker.id}`);
+      console.log(`[worker]   ${msg}`);
+      process.send(`[worker]   worker${cluster.worker.id} received!`);
+  });
+   
     server.listen(port);
+
     server.on('error', onError);
+    // 监听master向worker状态事件
     server.on('listening', onListening);
+    
     io.getScoket(server)
     console.log(`工作进程 ${process.pid} 已启动`);
+
   }
 
 

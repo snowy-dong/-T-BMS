@@ -39,6 +39,8 @@ router.post('/', function(req, res, next) {
 
 });
 router.get('/list', function(req, res, next) {
+  console.log('worker'+cluster.worker.id);
+  process.send(`[worker]   worker${cluster.worker.id} received!`);
   var sql='';
   var sqlCount='';
   if(req.query.keyword){

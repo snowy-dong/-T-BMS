@@ -13,7 +13,7 @@ router.post('/', function (req, res, next) {
   get();
   function get() {
     redisClient.get(req.body.name, function (redisRes, reply) {
-      console.log(reply)
+      // console.log(reply)
       if (reply) {
         res.send({
           code: 'S200',

@@ -21,7 +21,7 @@ exports.verifyToken = function (req, res, next) {
   })
   function getName(name){
     redisClient.get(name, function (redisRes, reply) {
-      console.log(reply)
+      // console.log(reply)
       if (reply === token) {
         next()
       } else {

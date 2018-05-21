@@ -26,8 +26,8 @@ app.set('view engine', 'jade');
 app.use('^/api', proxy({ target: 'http://localhost:3000', changeOrigin: true, pathRewrite: {"^/api": ""} }));
 // 拦截器
 app.all('/*', function (req, res, next) {
-  console.log(req.url);
-  console.log(req.headers);
+  // console.log(req.url);
+  // console.log(req.headers);
 if (req.url == '/login') {
     next();
 } else {
